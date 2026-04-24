@@ -32,17 +32,17 @@ option = st.sidebar.radio(
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
     st.title("Informações sobre a Base de Dados")
-    print("Base de Dados obtida no website Kaggle")
-    print("https://www.kaggle.com/datasets/gregorut/videogamesales")
-    print("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
-    print("Ele é baseado no BeautifulSoup usando Python.")
-    print("Há 16.598 registros.")
-    print("Dois registros foram descartados devido a informações incompletas.")
-    print("Analisando a base, ela foi extraída em meados de 2016, então dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
-    print("Com base na informação acima os dados de 2016 serão desconsiderados.")
-    print("")
-    print("")
-    print("")
+    st.write("Base de Dados obtida no website Kaggle")
+    st.write("https://www.kaggle.com/datasets/gregorut/videogamesales")
+    st.write("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
+    st.write("Ele é baseado no BeautifulSoup usando Python.")
+    st.write("Há 16.598 registros.")
+    st.write("Dois registros foram descartados devido a informações incompletas.")
+    st.write("Analisando a base, ela foi extraída em meados de 2016, então dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
+    st.write("Com base na informação acima os dados de 2016 serão desconsiderados.")
+    st.write("")
+    st.write("")
+    st.write("")
 
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
