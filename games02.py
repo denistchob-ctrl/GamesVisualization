@@ -41,7 +41,7 @@ def filter_by_genre(dataframe, genre):
     if genre == "Todos":
         return dataframe
     else:
-        return dataframe[dataframe["genre"] == genre]
+        return dataframe[dataframe["Genre"] == genre]
 
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
 if not cb_LimparDados:
