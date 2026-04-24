@@ -28,7 +28,12 @@ option = st.sidebar.radio(
         "0. Informações sobre a Base de Dados"
     ]
 )
-cb_LimparDados = st.sidebar.checkbox('Limpar Dados')
+cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
+if cb_LimparDados:
+    st.write("")
+else:
+    st.write("Foram retirados da análise os dados discrepantes")
+
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
@@ -47,7 +52,7 @@ if option.startswith("0"):
 
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
-    st.title("Visão Geral das Vendas Globais")
+    st.title("Vendas Globais de Jogos de Video Games")
     vendas_por_ano = df.groupby("Year")["Global_Sales"].sum().reset_index()
     fig = px.line(vendas_por_ano, x="Year", y="Global_Sales", 
                   labels={"Year": "Ano", "Global_Sales": "Vendas Totais"}, title="Vendas Globais por Ano")
