@@ -10,6 +10,8 @@ import plotly.express as px
 #
 #jogos com o identificador SERIES em console é porque o jogo tem uma série de outros jogos em outros consoles, uma linha de jogos com o mesmo nome
 #verificar se também devem ser ignorados
+#após o titulo, colocar o filtro se houver para que o usuário saiba que os dados estão filtrados ou não.
+
 
 # Carregar dados
 @st.cache_data
