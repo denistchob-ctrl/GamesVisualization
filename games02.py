@@ -47,9 +47,9 @@ if option.startswith("0"):
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
     st.title("Visão Geral das Vendas Globais")
-    vendas_por_ano = df.groupby("year")["global_sales"].sum().reset_index()
-    fig = px.line(vendas_por_ano, x="year", y="global_sales", 
-                  labels={"year": "Ano", "global_sales": "Vendas Totais"}, title="Vendas Globais por Ano")
+    vendas_por_ano = df.groupby("Year")["global_sales"].sum().reset_index()
+    fig = px.line(vendas_por_ano, x="Year", y="Global_Sales", 
+                  labels={"Year": "Ano", "Global_Sales": "Vendas Totais"}, title="Vendas Globais por Ano")
     st.plotly_chart(fig)
 
 # Dashboard 2 - Top Jogos
