@@ -10,6 +10,7 @@ def load_data():
     return df
 
 df = load_data()
+df["Year"] = df["Year"].dt.year.astype("Int64")
 
 # Menu lateral
 st.sidebar.title("Menu de Dashboards\n Ver valores sua dimensão está correta\nPermitir seleção")
@@ -93,7 +94,6 @@ if option.startswith("0"):
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
     st.title("Vendas Globais de Jogos de Video Games")
-    df_filtered = filter_by_genre(df, selected_genre)
     vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
     fig = px.line(vendas_por_ano, x="Year", y="Global_Sales", 
                   labels={"Year": "Ano", "Global_Sales": "Vendas Totais"}, title="Vendas Globais por Ano")
