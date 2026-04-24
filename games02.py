@@ -67,7 +67,6 @@ if option.startswith("0"):
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
     st.title("Vendas Globais de Jogos de Video Games")
-    
     df_filtered = filter_by_genre(df, selected_genre)
     vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
     fig = px.line(vendas_por_ano, x="Year", y="Global_Sales", 
@@ -77,7 +76,8 @@ elif option.startswith("1"):
 # Dashboard 2 - Top Jogos
 elif option.startswith("2"):
     st.title("Top Jogos e Franquias")
-    top_jogos = df.groupby("Name")["Global_Sales"].sum().nlargest(10).reset_index()
+    df_filtered = filter_by_genre(df, selected_genre)
+    top_jogos = df_filtered.groupby("Name")["Global_Sales"].sum().nlargest(10).reset_index()
     fig = px.bar(top_jogos, x="Name", y="Global_Sales", 
                   labels={"Name": "Título", "Global_Sales": "Vendas Totais"}, title="Top 10 Jogos Mais Vendidos")
     st.plotly_chart(fig)
