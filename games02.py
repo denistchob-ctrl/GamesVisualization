@@ -30,10 +30,11 @@ option = st.sidebar.radio(
 )
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
 if cb_LimparDados:
-    st.write("")
+    st.sidebar.write("")
 else:
-    st.write("Foram retirados da análise os dados discrepantes")
-
+    with st.sidebar:
+        with st.echo():
+            st.write("Foram excluidos as informações redundantes da base de dados.")
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
