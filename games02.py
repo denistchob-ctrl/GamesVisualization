@@ -63,9 +63,9 @@ elif option.startswith("2"):
 # Dashboard 3 - Plataformas
 elif option.startswith("3"):
     st.title("Distribuição por Plataformas")
-    plataformas = df.groupby("Console")["Global_Sales"].sum().reset_index()
-    fig = px.bar(plataformas, x="Console", y="Global_Sales", 
-                  labels={"Console": "Console", "Global_Sales": "Vendas Totais"}, title="Vendas por Plataforma")
+    plataformas = df.groupby("Platform")["Global_Sales"].sum().reset_index()
+    fig = px.bar(plataformas, x="Platform", y="Global_Sales", 
+                  labels={"Platform": "Platform", "Global_Sales": "Vendas Totais"}, title="Vendas por Plataforma")
     st.plotly_chart(fig)
 
 # Dashboard 4 - Gênero
@@ -109,7 +109,7 @@ elif option.startswith("7"):
 
     tendencias = df.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
     fig = px.line(tendencias, x="Year", y="Global_Sales", color="Genre", 
-                  labels={"year": "Ano", "Genre": "Gênero", "Global_Sales": "Vendas Totais"},
+                  labels={"Year": "Ano", "Genre": "Gênero", "Global_Sales": "Vendas Totais"},
                   title="Evolução das Vendas por Gênero")
     st.plotly_chart(fig)
 
