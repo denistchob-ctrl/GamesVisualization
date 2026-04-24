@@ -30,7 +30,7 @@ option = st.sidebar.radio(
 )
 
 # Criar combobox de gêneros
-genres = df["genre"].dropna().unique().tolist()
+genres = df["Genre"].dropna().unique().tolist()
 genres.sort()
 genres.insert(0, "Todos")  # adiciona opção "Todos" no início
 
