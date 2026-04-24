@@ -29,12 +29,38 @@ option = st.sidebar.radio(
     ]
 )
 
-# Criar combobox de gêneros
+# --- Filtros na barra lateral ---
+# Gênero
 genres = df["Genre"].dropna().unique().tolist()
 genres.sort()
-genres.insert(0, "Todos")  # adiciona opção "Todos" no início
-
+genres.insert(0, "Todos")
 selected_genre = st.sidebar.selectbox("Selecione o gênero:", genres, index=0)
+
+# Ano
+years = df["Year"].dropna().unique().tolist()
+years.sort()
+years.insert(0, "Todos")
+selected_year = st.sidebar.selectbox("Selecione o ano de lançamento:", years, index=0)
+
+# Plataforma
+platforms = df["Platform"].dropna().unique().tolist()
+platforms.sort()
+platforms.insert(0, "Todos")
+selected_platform = st.sidebar.selectbox("Selecione a plataforma:", platforms, index=0)
+
+# --- Função de filtro combinada ---
+def apply_filters(dataframe, genre, year, platform):
+    df_filtered = dataframe.copy()
+    if genre != "Todos":
+        df_filtered = df_filtered[df_filtered["Genre"] == genre]
+    if year != "Todos":
+        df_filtered = df_filtered[df_filtered["Year"] == year]
+    if platform != "Todos":
+        df_filtered = df_filtered[df_filtered["Platform"] == platform]
+    return df_filtered
+
+# --- Aplicar filtros globais ---
+df_filtered = apply_filters(df, selected_genre, selected_year, selected_platform)
 
 # Função auxiliar para aplicar filtro
 def filter_by_genre(dataframe, genre):
@@ -61,7 +87,7 @@ if option.startswith("0"):
     st.write("Analisando a base, ela foi extraída em meados de 2016, então dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
     st.write("Com base na informação acima os dados de 2016 serão desconsiderados.")
     st.write("")
-    st.write("")
+    st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHOES")
     st.write("")
 
 # Dashboard 1 - Visão Geral
@@ -76,7 +102,6 @@ elif option.startswith("1"):
 # Dashboard 2 - Top Jogos
 elif option.startswith("2"):
     st.title("Top Jogos e Franquias")
-    df_filtered = filter_by_genre(df, selected_genre)
     top_jogos = df_filtered.groupby("Name")["Global_Sales"].sum().nlargest(10).reset_index()
     fig = px.bar(top_jogos, x="Name", y="Global_Sales", 
                   labels={"Name": "Título", "Global_Sales": "Vendas Totais"}, title="Top 10 Jogos Mais Vendidos")
@@ -85,7 +110,7 @@ elif option.startswith("2"):
 # Dashboard 3 - Plataformas
 elif option.startswith("3"):
     st.title("Distribuição por Plataformas")
-    plataformas = df.groupby("Platform")["Global_Sales"].sum().reset_index()
+    plataformas = df_filtered.groupby("Platform")["Global_Sales"].sum().reset_index()
     fig = px.bar(plataformas, x="Platform", y="Global_Sales", 
                   labels={"Platform": "Platform", "Global_Sales": "Vendas Totais"}, title="Vendas por Plataforma")
     st.plotly_chart(fig)
@@ -93,7 +118,7 @@ elif option.startswith("3"):
 # Dashboard 4 - Gênero
 elif option.startswith("4"):
     st.title("Análise por Gênero")
-    generos = df.groupby("Genre")["Global_Sales"].sum().reset_index()
+    generos = df_filtered.groupby("Genre")["Global_Sales"].sum().reset_index()
     fig = px.pie(generos, names="Genre", values="Global_Sales", 
                   labels={"Genre": "Gênero", "Global_Sales": "Vendas Totais"}, title="Distribuição por Gênero")
     st.plotly_chart(fig)
@@ -101,7 +126,7 @@ elif option.startswith("4"):
 # Dashboard 5 - Editoras
 elif option.startswith("5"):
     st.title("Editoras e Desenvolvedoras")
-    editoras = df.groupby("Publisher")["Global_Sales"].sum().nlargest(10).reset_index()
+    editoras = df_filtered.groupby("Publisher")["Global_Sales"].sum().nlargest(10).reset_index()
     fig = px.bar(editoras, x="Publisher", y="Global_Sales", 
                   labels={"Publisher": "Desenvolvedor", "Global_Sales": "Vendas Totais"}, title="Top 10 Desenvolvedoras")
     st.plotly_chart(fig)
@@ -113,10 +138,10 @@ elif option.startswith("6"):
     regioes = pd.DataFrame({
         "Region": ["América do Norte", "Europa", "Japão", "Resto do Mundo"],
         "Sales": [
-            df["NA_Sales"].sum(),
-            df["EU_Sales"].sum(),
-            df["JP_Sales"].sum(),
-            df["Other_Sales"].sum()
+            df_filtered["NA_Sales"].sum(),
+            df_filtered["EU_Sales"].sum(),
+            df_filtered["JP_Sales"].sum(),
+            df_filtered["Other_Sales"].sum()
         ]
     })
 
@@ -129,7 +154,7 @@ elif option.startswith("7"):
     st.title("Tendências Temporais")
     # Exemplo: evolução de gêneros ao longo dos anos
 
-    tendencias = df.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
     fig = px.line(tendencias, x="Year", y="Global_Sales", color="Genre", 
                   labels={"Year": "Ano", "Genre": "Gênero", "Global_Sales": "Vendas Totais"},
                   title="Evolução das Vendas por Gênero")
