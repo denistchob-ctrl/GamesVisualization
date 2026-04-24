@@ -95,11 +95,11 @@ if option.startswith("0"):
 
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
-    st.title("Vendas Globais de Jogos de Video Games")
+    #st.title("Vendas Globais de Jogos de Video Games")
     vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
     fig = px.line(vendas_por_ano, x="Year", y="Global_Sales"
                 , labels={"Year": "Ano de Publicação do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}
-                , title="Vendas Globais por Ano")
+                , title="Vendas Globais de Jogos de Video Games por Ano")
     st.plotly_chart(fig)
 
 # Dashboard 2 - Top Jogos
@@ -113,25 +113,25 @@ elif option.startswith("2"):
 
 # Dashboard 3 - Plataformas
 elif option.startswith("3"):
-    st.title("Distribuição por Plataformas")
+    #st.title("Distribuição por Plataformas")
     plataformas = df_filtered.groupby("Platform")["Global_Sales"].sum().reset_index()
     fig = px.bar(plataformas, x="Platform", y="Global_Sales"
                , labels={"Platform": "Plataforma do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}
-               , title="Vendas por Plataforma")
+               , title="Distribuição de Vendas por Plataforma")
     st.plotly_chart(fig)
 
 # Dashboard 4 - Gênero
 elif option.startswith("4"):
-    st.title("Análise por Gênero")
+    #st.title("Análise por Gênero")
     generos = df_filtered.groupby("Genre")["Global_Sales"].sum().reset_index()
     fig = px.pie(generos, names="Genre", values="Global_Sales"
                , labels={"Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"}
-               , title="Distribuição por Gênero")
+               , title="Distribuição de Vendas por Gênero")
     st.plotly_chart(fig)
 
 # Dashboard 5 - Editoras
 elif option.startswith("5"):
-    st.title("Editoras e Desenvolvedoras")
+    #st.title("Editoras e Desenvolvedoras")
     editoras = df_filtered.groupby("Publisher")["Global_Sales"].sum().nlargest(10).reset_index()
     fig = px.bar(editoras, x="Publisher", y="Global_Sales"
                , labels={"Publisher": "Desenvolvedor", "Global_Sales": "Vendas Totais (em milhões)"}
@@ -140,7 +140,7 @@ elif option.startswith("5"):
 
 # Dashboard 6 - Mapa Interativo
 elif option.startswith("6"):
-    st.title("Distribuição Geográfica das Vendas")
+    #st.title("Distribuição Geográfica das Vendas")
 
     regioes = pd.DataFrame({
         "Region": ["América do Norte", "Europa", "Japão", "Resto do Mundo"],
@@ -154,18 +154,18 @@ elif option.startswith("6"):
 
     fig = px.bar(regioes, x="Region", y="Sales" 
                , labels={"Region": "Região", "Sales": "Vendas Totais (em milhões)"}
-               , title="Vendas por Região")
+               , title="Distribuição Geográfica das Vendas por Região")
     st.plotly_chart(fig)
 
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("7"):
-    st.title("Tendências Temporais")
+    #st.title("Tendências Temporais")
     # Exemplo: evolução de gêneros ao longo dos anos
 
     tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
     fig = px.line(tendencias, x="Year", y="Global_Sales", color="Genre", 
                   labels={"Year": "Ano de Publicação", "Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
-                  title="Evolução das Vendas por Gênero")
+                  title="Evolução das Vendas nos Anos por Gênero")
     st.plotly_chart(fig)
 
 elif option.startswith("8"):
