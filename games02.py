@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+#https://gamesvisualization-v77moozvxrjfgzckeg5rp3.streamlit.app/
+#dados em milhões (vendas)
+#jogos com o identificador ALL em console é um agrupado de todas as versoes em outros consoles
+#ver o jogo Tekken 8 (all) que teve 3 versoes e cada uma delas tem seus dados também
+#talvez seja interessante ignorar os registros que apontam pra esse console
+#
+#jogos com o identificador SERIES em console é porque o jogo tem uma série de outros jogos em outros consoles, uma linha de jogos com o mesmo nome
+#verificar se também devem ser ignorados
 
 # Carregar dados
 @st.cache_data
