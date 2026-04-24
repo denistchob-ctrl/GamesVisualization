@@ -28,6 +28,7 @@ option = st.sidebar.radio(
         "0. Informações sobre a Base de Dados"
     ]
 )
+cb_LimparDados = st.sidebar.checkbox('Limpar Dados')
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
