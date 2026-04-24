@@ -72,13 +72,6 @@ def apply_filters(dataframe, genre, year, platform):
 # --- Aplicar filtros globais ---
 df_filtered = apply_filters(df, selected_genre, selected_year, selected_platform)
 
-# Função auxiliar para aplicar filtro
-def filter_by_genre(dataframe, genre):
-    if genre == "Todos":
-        return dataframe
-    else:
-        return dataframe[dataframe["Genre"] == genre]
-
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
 if not cb_LimparDados:
     st.sidebar.write("")
@@ -105,7 +98,7 @@ elif option.startswith("1"):
     st.title("Vendas Globais de Jogos de Video Games")
     vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
     fig = px.line(vendas_por_ano, x="Year", y="Global_Sales", 
-                  labels={"Year": "Ano de Publicação do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}, title="Vendas Globais por Ano")
+                  labels={"Year": "Ano de Publicação do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}) #, title="Vendas Globais por Ano")
     st.plotly_chart(fig)
 
 # Dashboard 2 - Top Jogos
