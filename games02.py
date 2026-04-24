@@ -28,6 +28,21 @@ option = st.sidebar.radio(
         "0. Informações sobre a Base de Dados"
     ]
 )
+
+# Criar combobox de gêneros
+genres = df["genre"].dropna().unique().tolist()
+genres.sort()
+genres.insert(0, "Todos")  # adiciona opção "Todos" no início
+
+selected_genre = st.sidebar.selectbox("Selecione o gênero:", genres, index=0)
+
+# Função auxiliar para aplicar filtro
+def filter_by_genre(dataframe, genre):
+    if genre == "Todos":
+        return dataframe
+    else:
+        return dataframe[dataframe["genre"] == genre]
+
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
 if not cb_LimparDados:
     st.sidebar.write("")
@@ -52,7 +67,9 @@ if option.startswith("0"):
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
     st.title("Vendas Globais de Jogos de Video Games")
-    vendas_por_ano = df.groupby("Year")["Global_Sales"].sum().reset_index()
+    
+    df_filtered = filter_by_genre(df, selected_genre)
+    vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
     fig = px.line(vendas_por_ano, x="Year", y="Global_Sales", 
                   labels={"Year": "Ano", "Global_Sales": "Vendas Totais"}, title="Vendas Globais por Ano")
     st.plotly_chart(fig)
