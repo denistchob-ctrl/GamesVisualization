@@ -10,7 +10,8 @@ def load_data():
     return df
 
 df = load_data()
-df["Year"] = df["Year"].dt.year.astype("Int64")
+# Converter Year para inteiro, mantendo NaN se houver
+df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
 
 # Menu lateral
 st.sidebar.title("Menu de Dashboards\n Ver valores sua dimensão está correta\nPermitir seleção")
