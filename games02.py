@@ -55,9 +55,9 @@ elif option.startswith("1"):
 # Dashboard 2 - Top Jogos
 elif option.startswith("2"):
     st.title("Top Jogos e Franquias")
-    top_jogos = df.groupby("Title")["Global_Sales"].sum().nlargest(10).reset_index()
-    fig = px.bar(top_jogos, x="Title", y="Global_Sales", 
-                  labels={"Title": "Título", "Global_Sales": "Vendas Totais"}, title="Top 10 Jogos Mais Vendidos")
+    top_jogos = df.groupby("Name")["Global_Sales"].sum().nlargest(10).reset_index()
+    fig = px.bar(top_jogos, x="Name", y="Global_Sales", 
+                  labels={"Name": "Título", "Global_Sales": "Vendas Totais"}, title="Top 10 Jogos Mais Vendidos")
     st.plotly_chart(fig)
 
 # Dashboard 3 - Plataformas
