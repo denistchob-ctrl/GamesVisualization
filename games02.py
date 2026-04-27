@@ -25,7 +25,7 @@ def load_data():
 
 df = load_data()
 # Converter Year para inteiro, mantendo NaN se houver
-df = df.replace(["N/A", "Unknow"], np.nan)
+df = df.replace(["N/A", "Unknown"], np.nan)
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
 
 # Menu lateral
