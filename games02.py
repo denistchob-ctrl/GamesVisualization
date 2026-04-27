@@ -127,7 +127,7 @@ if option.startswith("0"):
         "Total de Gêneros": df["Genre"].nunique(),
         "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0,
         "Total de Desenvolvedoras": df["Publisher"].nunique() if "Publisher" in df.columns else 0,
-        "Total de Jogos que aparecem em mais de uma plataforma": df[df.duplicated(subset=["Name"], keep=False)]["Name"].nunique()
+        "Total de Jogos que aparecem \nem mais de uma plataforma": df[df.duplicated(subset=["Name"], keep=False)]["Name"].nunique()
     }
     stats_totals_df = pd.DataFrame(list(stats_totals.items()), columns=["Indicador", "Valor"])
 
