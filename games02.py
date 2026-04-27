@@ -248,40 +248,33 @@ elif option.startswith("9"):
 
     st.title("Resumo da Base de Dados")
 
-    # Estatísticas principais
-    stats = {
+    # --- Primeira tabela: Totais ---
+    stats_totals = {
         "Total de Registros": len(df),
         "Total de Gêneros": df["Genre"].nunique(),
         "Total de Consoles": df["Console"].nunique() if "Console" in df.columns else 0,
-        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0,
-        "Ano Mínimo": df["Year"].min(),
-        "Ano Máximo": df["Year"].max(),
-        "Menor Venda América do Norte": df["NA_Sales"].min(),
-        "Maior Venda América do Norte": df["NA_Sales"].max(),
-        "Menor Venda Europa": df["EU_Sales"].min(),
-        "Maior Venda Europa": df["EU_Sales"].max(),
-        "Menor Venda Japão": df["JP_Sales"].min(),
-        "Maior Venda Japão": df["JP_Sales"].max(),
-        "Menor Venda Outros": df["Other_Sales"].min(),
-        "Maior Venda Outros": df["Other_Sales"].max(),
-        "Menor Venda Global": df["Global_Sales"].min(),
-        "Maior Venda Global": df["Global_Sales"].max(),
+        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0
     }
+    stats_totals_df = pd.DataFrame(list(stats_totals.items()), columns=["Indicador", "Valor"])
 
-    # Converter para DataFrame
-    stats_df = pd.DataFrame(list(stats.items()), columns=["Indicador", "Valor"])
+    # --- Segunda tabela: Mínimos e Máximos ---
+    stats_min_max = [
+        ("Ano", df["Year"].min(), df["Year"].max()),
+        ("Vendas América do Norte", df["NA_Sales"].min(), df["NA_Sales"].max()),
+        ("Vendas Europa", df["EU_Sales"].min(), df["EU_Sales"].max()),
+        ("Vendas Japão", df["JP_Sales"].min(), df["JP_Sales"].max()),
+        ("Vendas Outros", df["Other_Sales"].min(), df["Other_Sales"].max()),
+        ("Vendas Globais", df["Global_Sales"].min(), df["Global_Sales"].max())
+    ]
+    stats_min_max_df = pd.DataFrame(stats_min_max, columns=["Indicador", "Mínimo", "Máximo"])
 
-    # Exibir tabela
-    st.subheader("Estatísticas Gerais")
-    st.dataframe(stats_df)
+    # --- Exibir lado a lado ---
+    col1, col2 = st.columns(2)
 
-    # Exibir gráfico de barras
-    fig = px.bar(
-        stats_df,
-        x="Indicador",
-        y="Valor",
-        title="Resumo Estatístico da Base",
-        text_auto=True
-    )
-    fig.update_layout(xaxis_tickangle=-45)
-    st.plotly_chart(fig, use_container_width=True)
+    with col1:
+        st.subheader("Totais da Base")
+        st.dataframe(stats_totals_df)
+
+    with col2:
+        st.subheader("Mínimos e Máximos")
+        st.dataframe(stats_min_max_df)
