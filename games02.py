@@ -39,11 +39,9 @@ option = st.sidebar.radio(
     "Escolha o tema:",
     [
         "1. Resumo Integrado",
-        "5. Editoras e Desenvolvedoras",
-        "6. Vendas por Região",
-        "7. Tendências Temporais",
-        "8. Produção de Jogos por Ano/Gênero",
-        "9. Dados Gerais da Base de Dados",
+        "2. Tendências Temporais",
+        "3. Produção de Jogos por Ano/Gênero",
+        "4. Dados Gerais da Base de Dados",
         "0. Informações sobre a Base de Dados"
     ]
 )
@@ -142,32 +140,13 @@ if option.startswith("1"):
                   labels={"Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
                   title="Distribuição de Vendas por Gênero")
 
-    # Layout organizado: 2 colunas em cima, 2 embaixo
-    col1, col2 = st.columns(2)
-    with col1:
-        st.plotly_chart(fig1, use_container_width=True)
-    with col2:
-        st.plotly_chart(fig2, use_container_width=True)
-
-    col3, col4 = st.columns(2)
-    with col3:
-        st.plotly_chart(fig3, use_container_width=True)
-    with col4:
-        st.plotly_chart(fig4, use_container_width=True)
-
-# Dashboard 5 - Editoras
-elif option.startswith("5"):
-    #st.title("Editoras e Desenvolvedoras")
+    # Gráfico 5 - Top 10 Editoras/Desenvolvedoras
     editoras = df_filtered.groupby("Publisher")["Global_Sales"].sum().nlargest(10).reset_index()
-    fig = px.bar(editoras, x="Publisher", y="Global_Sales"
+    fig5 = px.bar(editoras, x="Publisher", y="Global_Sales"
                , labels={"Publisher": "Desenvolvedor", "Global_Sales": "Vendas Totais (em milhões)"}
                , title="Top 10 Desenvolvedoras")
-    st.plotly_chart(fig)
 
-# Dashboard 6 - Mapa Interativo
-elif option.startswith("6"):
-    #st.title("Distribuição Geográfica das Vendas")
-
+    # Gráfico 6 - Distribuição Geográfica das Venda
     regioes = pd.DataFrame({
         "Region": ["América do Norte", "Europa", "Japão", "Resto do Mundo"],
         "Sales": [
@@ -177,14 +156,29 @@ elif option.startswith("6"):
             df_filtered["Other_Sales"].sum()
         ]
     })
-
-    fig = px.bar(regioes, x="Region", y="Sales" 
+    fig6 = px.bar(regioes, x="Region", y="Sales" 
                , labels={"Region": "Região", "Sales": "Vendas Totais (em milhões)"}
                , title="Distribuição Geográfica das Vendas por Região")
-    st.plotly_chart(fig)
+
+   # Layout organizado: 2 colunas em cima, 2 embaixo
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.plotly_chart(fig1, use_container_width=True)
+    with col2:
+        st.plotly_chart(fig2, use_container_width=True)
+    with col3:
+        st.plotly_chart(fig3, use_container_width=True)
+
+    col4, col5, col6 = st.columns(3)
+    with col4:
+        st.plotly_chart(fig4, use_container_width=True)
+    with col5:
+        st.plotly_chart(fig5, use_container_width=True)
+    with col6:
+        st.plotly_chart(fig6, use_container_width=True)
 
 # Dashboard 7 - Tendências Temporais
-elif option.startswith("7"):
+elif option.startswith("2"):
     #st.title("Tendências Temporais")
     # Exemplo: evolução de gêneros ao longo dos anos
 
@@ -194,7 +188,7 @@ elif option.startswith("7"):
                   title="Evolução das Vendas nos Anos por Gênero")
     st.plotly_chart(fig)
 
-elif option.startswith("8"):
+elif option.startswith("3"):
     st.title("Matriz de Produção de Jogos por Ano e Gênero")
     #montar uma matriz 3 linhas 5 colunas
     #produção por ano (pegar os 5 anos que mais tiveram produção de games)
@@ -235,9 +229,9 @@ elif option.startswith("8"):
 
     st.plotly_chart(fig, use_container_width=True)
 
-elif option.startswith("9"):
+elif option.startswith("4"):
     st.title("Dados Gerais da Base de Dados")
-   # --- Primeira tabela: Totais ---
+    # --- Primeira tabela: Totais ---
     stats_totals = {
         "Total de Registros": len(df),
         "Total de Gêneros": df["Genre"].nunique(),
