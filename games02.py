@@ -191,76 +191,9 @@ if option.startswith("0"):
 
 # Dashboard 1 - Visão Geral
 # --- Nova opção: Resumo Integrado ---
-if option.startswith("teste original"):
-    #versão original por enquanto descartada, mas pode ser reaproveitada para um dashboard de teste
-    st.title("Resumo Integrado")
-    st.subheader("Vendas, Jogos, Plataformas e Gêneros")
-
-    # Gráfico 1 - Vendas Globais por Ano
-    vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
-    fig1 = px.line(vendas_por_ano, x="Year", y="Vendas Globais",
-                   labels={"Year": "Ano", "Vendas Globais": "Vendas Totais (em milhões)"},
-                   title="Vendas Globais por Ano")
-
-    # Gráfico 2 - Top 10 Jogos
-    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
-    fig2 = px.bar(top_jogos, x="Name", y="Vendas Globais",
-                  labels={"Name": "Título", "Vendas Globais": "Vendas Totais (em milhões)"},
-                  title="Top 10 Jogos Mais Vendidos")
-
-    # Gráfico 3 - Distribuição por Plataformas
-    plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
-    fig3 = px.bar(plataformas, x="Platform", y="Vendas Globais",
-                  labels={"Platform": "Plataforma", "Vendas Globais": "Vendas Totais (em milhões)"},
-                  title="Vendas por Plataforma")
-
-    # Gráfico 4 - Distribuição por Gênero
-    generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
-    fig4 = px.pie(generos, names="Genre", values="Vendas Globais",
-                  labels={"Genre": "Gênero", "Vendas Globais": "Vendas Totais (em milhões)"},
-                  title="Vendas por Gênero")
-
-    # Gráfico 5 - Top 10 Editoras/Desenvolvedoras
-    editoras = df_filtered.groupby("Publisher")["Vendas Globais"].sum().nlargest(10).reset_index()
-    fig5 = px.bar(editoras, x="Publisher", y="Vendas Globais"
-               , labels={"Publisher": "Desenvolvedor", "Vendas Globais": "Vendas Totais (em milhões)"}
-               , title="Top 10 Desenvolvedoras")
-
-    # Gráfico 6 - Distribuição Geográfica das Venda
-    regioes = pd.DataFrame({
-        "Region": ["América do Norte", "Europa", "Japão", "Outros Países"],
-        "Sales": [
-            df_filtered["América do Norte"].sum(),
-            df_filtered["Europa"].sum(),
-            df_filtered["Japão"].sum(),
-            df_filtered["Outros Países"].sum()
-        ]
-    })
-    fig6 = px.bar(regioes, x="Region", y="Sales" 
-               , labels={"Region": "Região", "Sales": "Vendas Totais (em milhões)"}
-               , title="Vendas por Região")
-
-    # Layout organizado com proporções
-    col1, col2 = st.columns([2, 2])  # col1 mais larga
-    with col1:
-        st.plotly_chart(fig1, use_container_width=False)
-    with col2:
-        st.plotly_chart(fig2, use_container_width=False)
-
-    col3, col4 = st.columns([2, 2])  # plataformas precisa de mais espaço
-    with col3:
-        st.plotly_chart(fig3, use_container_width=True)
-    with col4:
-        st.plotly_chart(fig4, use_container_width=True)
-
-    col5, col6 = st.columns([2, 2])  # editoras em barra larga, regiões em barra menor
-    with col5:
-        st.plotly_chart(fig5, use_container_width=True)
-    with col6:
-        st.plotly_chart(fig6, use_container_width=True)
 
 # Resumo Integrado
-elif option.startswith("1"):
+if option.startswith("1"):
     st.title("Resumo Integrado")
     st.subheader("Vendas, Jogos, Plataformas e Gêneros")
 
@@ -270,39 +203,65 @@ elif option.startswith("1"):
     plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
     generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
 
-    # --- Criar subplots 2x2 ---
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    ax1, ax2, ax3, ax4 = axes.flatten()
+    # Primeira linha: 2 gráficos lado a lado
+    col1, col2 = st.columns(2)
 
-    # Gráfico 1 - Vendas Globais por Ano (linha azul)
-    ax1.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue")
-    ax1.set_title("Vendas Globais por Ano")
-    ax1.set_xlabel("")
-    ax1.set_ylabel("Vendas Totais (em milhões)")
+    with col1:
+        fig, ax = plt.subplots(figsize=(6,4))
+        ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue")
+        ax.set_title("Vendas Globais por Ano")
+        ax.set_ylabel("Vendas Totais (em milhões)")
+        st.pyplot(fig)
 
-    # Gráfico 2 - Top 10 Jogos (barras vermelhas)
-    cores_jogos = ["red", "blue", "green", "orange", "purple", "cyan", "magenta", "yellow", "brown", "pink"]
-    ax4.bar(top_jogos["Name"], top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
-    ax4.set_title("Top 10 Jogos Mais Vendidos")
-    ax4.set_ylabel("Vendas Totais (em milhões)")
-    ax4.tick_params(axis="x", rotation=45)
+    with col2:
+        fig, ax = plt.subplots(figsize=(6,4))
+        cores = plt.cm.tab20.colors
+        ax.pie(generos["Vendas Globais"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
+        ax.set_title("Vendas por Gênero")
+        st.pyplot(fig)
 
-    # Gráfico 3 - Distribuição por Plataformas (barras verdes)
-    cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(top_jogos)))
-    cores_plataformas = cm.tab10(range(len(plataformas)))  # paleta com até 10 cores distintas
-    ax3.bar(plataformas["Platform"], plataformas["Vendas Globais"], color=cores_auto)
-    ax3.set_title("Vendas por Plataforma")
-    ax3.set_ylabel("Vendas Totais (em milhões)")
-    ax3.tick_params(axis="x", rotation=45)
+    # Segunda linha: 2 gráficos lado a lado
+    col3, col4 = st.columns(2)
 
-    # Gráfico 4 - Distribuição por Gênero (pizza colorida)
-    cores = plt.cm.tab20.colors  # paleta de cores variadas
-    ax2.pie(generos["Vendas Globais"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
-    ax2.set_title("Vendas por Gênero")
+    with col3:
+        fig, ax = plt.subplots(figsize=(6,4))
+        cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(plataformas)))
+        ax.bar(plataformas["Platform"], plataformas["Vendas Globais"], color=cores_auto)
+        ax.set_title("Vendas por Plataforma")
+        ax.set_ylabel("Vendas Totais (em milhões)")
+        ax.tick_params(axis="x", rotation=45)
+        st.pyplot(fig)
 
-    # Ajustar layout
-    #fig.tight_layout()
+    with col4:
+        fig, ax = plt.subplots(figsize=(6,4))
+        cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
+        ax.bar(top_jogos["Name"], top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
+        ax.set_title("Top 10 Jogos Mais Vendidos")
+        ax.set_ylabel("Vendas Totais (em milhões)")
+        ax.tick_params(axis="x", rotation=45)
+        st.pyplot(fig)
+
+    # Terceira linha: gráfico ocupando toda a largura
+    st.markdown("Vendas por Gênero/Região")
+    regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
+    genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
+    genre_region = df_filtered.groupby("Genre")[regions].sum()
+    genre_region = genre_region.loc[genre_sales.index]
+
+    fig, ax = plt.subplots(figsize=(12,6))
+    bottom = np.zeros(len(genre_region))
+    for region in regions:
+        ax.bar(genre_region.index, genre_region[region], bottom=bottom, label=region)
+        bottom += genre_region[region].values
+
+    ax.set_title("Vendas por Gênero/Região")
+    ax.set_xlabel("Gênero")
+    ax.set_ylabel("Vendas Totais (em milhões)")
+    ax.tick_params(axis="x", rotation=45)
+    ax.legend()
+    fig.tight_layout()
     st.pyplot(fig)
+
 
 elif option.startswith("3"):
     st.title("Matriz de Produção de Jogos")
@@ -346,13 +305,6 @@ elif option.startswith("3"):
     # "Turbo" → cores vibrantes e contrastantes.
     fig.update_xaxes(side="top")
 
-    st.plotly_chart(fig, use_container_width=True)
-
-    fig, ax = plt.subplots(figsize=(8,6))
-    sns.heatmap(df_filtered.corr(numeric_only=True), annot=True, ax=ax, cmap="coolwarm")
-    ax.set_title("Correlação entre Variáveis Numéricas")
-    st.pyplot(fig)
-
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
     #st.title("Tendências Temporais")
@@ -392,36 +344,11 @@ elif option.startswith("2"):
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # Agrupar vendas por gênero e região
-    regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
-    region_totals = df_filtered[regions].sum()
-
-    genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
-    genre_region = df_filtered.groupby("Genre")[regions].sum()
-    genre_region = genre_region.loc[genre_sales.index]
-    
-    # Criar figura
-    fig, ax = plt.subplots(figsize=(12,6))
-
-    bottom = np.zeros(len(genre_region))
-    for region in regions:
-        ax.bar(genre_region.index, genre_region[region], bottom=bottom, label=region)
-        bottom += genre_region[region].values
-
-    ax.set_title("Vendas por Gênero/Região")
-    ax.set_xlabel("Gênero")
-    ax.set_ylabel("Vendas Totais (em Milhões)")
-    ax.tick_params(axis="x", rotation=45)
-    ax.legend()
-    fig.tight_layout()
-
-    # Exibir no Streamlit
-    st.pyplot(fig)
 
 elif option.startswith("8"):
 
     #
-    #
+    #teste com 3d
     #
     #2ª opção do mesmo gráfico, mas em 3D interativo
     # --- Preparar os dados ---
@@ -488,3 +415,70 @@ elif option.startswith("9"):
     #3ª opção do mesmo gráfico, mas em 3D interativo
     st.write("Em desenvolvimento...")
     
+elif option.startswith("teste original"):
+    #versão original por enquanto descartada, mas pode ser reaproveitada para um dashboard de teste
+    st.title("Resumo Integrado")
+    st.subheader("Vendas, Jogos, Plataformas e Gêneros")
+
+    # Gráfico 1 - Vendas Globais por Ano
+    vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
+    fig1 = px.line(vendas_por_ano, x="Year", y="Vendas Globais",
+                   labels={"Year": "Ano", "Vendas Globais": "Vendas Totais (em milhões)"},
+                   title="Vendas Globais por Ano")
+
+    # Gráfico 2 - Top 10 Jogos
+    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
+    fig2 = px.bar(top_jogos, x="Name", y="Vendas Globais",
+                  labels={"Name": "Título", "Vendas Globais": "Vendas Totais (em milhões)"},
+                  title="Top 10 Jogos Mais Vendidos")
+
+    # Gráfico 3 - Distribuição por Plataformas
+    plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
+    fig3 = px.bar(plataformas, x="Platform", y="Vendas Globais",
+                  labels={"Platform": "Plataforma", "Vendas Globais": "Vendas Totais (em milhões)"},
+                  title="Vendas por Plataforma")
+
+    # Gráfico 4 - Distribuição por Gênero
+    generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
+    fig4 = px.pie(generos, names="Genre", values="Vendas Globais",
+                  labels={"Genre": "Gênero", "Vendas Globais": "Vendas Totais (em milhões)"},
+                  title="Vendas por Gênero")
+
+    # Gráfico 5 - Top 10 Editoras/Desenvolvedoras
+    editoras = df_filtered.groupby("Publisher")["Vendas Globais"].sum().nlargest(10).reset_index()
+    fig5 = px.bar(editoras, x="Publisher", y="Vendas Globais"
+               , labels={"Publisher": "Desenvolvedor", "Vendas Globais": "Vendas Totais (em milhões)"}
+               , title="Top 10 Desenvolvedoras")
+
+    # Gráfico 6 - Distribuição Geográfica das Venda
+    regioes = pd.DataFrame({
+        "Region": ["América do Norte", "Europa", "Japão", "Outros Países"],
+        "Sales": [
+            df_filtered["América do Norte"].sum(),
+            df_filtered["Europa"].sum(),
+            df_filtered["Japão"].sum(),
+            df_filtered["Outros Países"].sum()
+        ]
+    })
+    fig6 = px.bar(regioes, x="Region", y="Sales" 
+               , labels={"Region": "Região", "Sales": "Vendas Totais (em milhões)"}
+               , title="Vendas por Região")
+
+    # Layout organizado com proporções
+    col1, col2 = st.columns([2, 2])  # col1 mais larga
+    with col1:
+        st.plotly_chart(fig1, use_container_width=False)
+    with col2:
+        st.plotly_chart(fig2, use_container_width=False)
+
+    col3, col4 = st.columns([2, 2])  # plataformas precisa de mais espaço
+    with col3:
+        st.plotly_chart(fig3, use_container_width=True)
+    with col4:
+        st.plotly_chart(fig4, use_container_width=True)
+
+    col5, col6 = st.columns([2, 2])  # editoras em barra larga, regiões em barra menor
+    with col5:
+        st.plotly_chart(fig5, use_container_width=True)
+    with col6:
+        st.plotly_chart(fig6, use_container_width=True)
