@@ -205,6 +205,8 @@ elif option.startswith("8"):
     ).reindex(index=top_genres, columns=top_years, fill_value=0)
 
     # Exibir tabela no Streamlit
+    st.write(f"Top 5 Anos com Maior Produção: {', '.join(map(str, top_years))}")
+    st.write(f"Top 6 Gêneros Mais Produzidos: {', '.join(top_genres)}")
     st.subheader("Cruzamento de Gêneros × Anos")
     st.dataframe(pivot)
 
