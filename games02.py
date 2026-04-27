@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import numpy as np
-import plotly.graph_objects as go
 from mpl_toolkits.mplot3d import Axes3D  # necessário para 3D
 
 #https://gamesvisualization-v77moozvxrjfgzckeg5rp3.streamlit.app/
@@ -261,16 +262,16 @@ elif option.startswith("1"):
     ax1.set_ylabel("Vendas Totais (em milhões)")
 
     # Gráfico 2 - Top 10 Jogos (barras vermelhas)
-    ax4.bar(top_jogos["Name"], top_jogos["Global_Sales"], color="red")
+    cores_jogos = ["red", "blue", "green", "orange", "purple", "cyan", "magenta", "yellow", "brown", "pink"]
+    ax4.bar(top_jogos["Name"], top_jogos["Global_Sales"], color=cores_jogos[:len(top_jogos)])
     ax4.set_title("Top 10 Jogos Mais Vendidos")
-    ax4.set_xlabel("")
     ax4.set_ylabel("Vendas Totais (em milhões)")
     ax4.tick_params(axis="x", rotation=45)
 
     # Gráfico 3 - Distribuição por Plataformas (barras verdes)
-    ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color="green")
+    cores_plataformas = cm.tab10(range(len(plataformas)))  # paleta com até 10 cores distintas
+    ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color=cores_plataformas)
     ax3.set_title("Vendas por Plataforma")
-    ax3.set_xlabel("")
     ax3.set_ylabel("Vendas Totais (em milhões)")
     ax3.tick_params(axis="x", rotation=45)
 
