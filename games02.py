@@ -343,6 +343,12 @@ elif option.startswith("3"):
 
     st.plotly_chart(fig, use_container_width=True)
 
+    fig = sns.heatmap(df.corr(numeric_only=True), annot=True)
+    # plt.title("Korelasi Antar Variabel")
+    # plt.show()
+    st.plotly_chart(fig, use_container_width=True)
+
+
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
     #st.title("Tendências Temporais")
