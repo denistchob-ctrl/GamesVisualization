@@ -191,8 +191,8 @@ elif option.startswith("8"):
     # Top 5 anos com maior produção
     top_years = df["Year"].value_counts().nlargest(5).index.tolist()
 
-    # Top 3 gêneros mais produzidos
-    top_genres = df["Genre"].value_counts().nlargest(3).index.tolist()
+    # Top 6 gêneros mais produzidos
+    top_genres = df["Genre"].value_counts().nlargest(6).index.tolist()
 
     # Criar tabela cruzada (matriz)
     matrix = df[df["Year"].isin(top_years) & df["Genre"].isin(top_genres)]
