@@ -242,7 +242,7 @@ if option.startswith("1"):
         st.pyplot(fig)
 
     # Terceira linha: gráfico ocupando toda a largura
-    st.markdown("Vendas por Gênero/Região")
+    #st.markdown("Vendas por Gênero/Região")
     regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
     genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
     genre_region = df_filtered.groupby("Genre")[regions].sum()
@@ -251,7 +251,7 @@ if option.startswith("1"):
     fig, ax = plt.subplots(figsize=(12,6))
     bottom = np.zeros(len(genre_region))
     for region in regions:
-        ax.bar(genre_region.index, genre_region[region], bottom=bottom, label=region)
+        ax.bar(genre_region.index, genre_region[region], bottom=bottom, label=region, color=cm.tab10(regions.index(region)))
         bottom += genre_region[region].values
 
     ax.set_title("Vendas por Gênero/Região")
