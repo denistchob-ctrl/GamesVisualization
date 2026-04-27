@@ -196,20 +196,27 @@ elif option.startswith("8"):
 
 elif option.startswith("9"):
     st.title("Dados Nulos e Não Nulos por Coluna")
+    # Calcular nulos e não nulos
     null_counts = df.isnull().sum()
     non_null_counts = df.notnull().sum()
 
+    # Organizar em DataFrame
     null_df = pd.DataFrame({
-        "Nulos": null_counts,
-        "Não Nulos": non_null_counts
+        "Coluna": df.columns,
+        "Nulos": null_counts.values,
+        "Não Nulos": non_null_counts.values
     })
 
-    plt.style.use("seaborn-v0_8")
-    ax = null_df.plot(kind="bar", figsize=(12, 6), rot=45)
-    plt.title("Contagem de Valores Nulos e Não Nulos por Coluna")
-    plt.ylabel("Quantidade de Registros")
-    plt.xlabel("Colunas")
-    plt.tight_layout()
-    plt.show()
+    # Exibir tabela
+    st.subheader("Tabela de Nulos e Não Nulos")
+    st.dataframe(null_df)
 
+    # Exibir gráfico interativo
+    fig = px.bar(
+        null_df.melt(id_vars="Coluna", value_vars=["Nulos", "Não Nulos"],
+                    var_name="Tipo", value_name="Quantidade"),
+        x="Coluna", y="Quantidade", color="Tipo", barmode="group",
+        title="Valores Nulos e Não Nulos por Coluna"
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
