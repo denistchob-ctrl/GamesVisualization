@@ -160,23 +160,25 @@ if option.startswith("1"):
                , labels={"Region": "Região", "Sales": "Vendas Totais (em milhões)"}
                , title="Distribuição Geográfica das Vendas por Região")
 
-   # Layout organizado: 2 colunas em cima, 2 embaixo
-    col1, col2, col3 = st.columns([3, 3, 3])
+    # Layout organizado com proporções
+    col1, col2 = st.columns([2, 1])  # col1 mais larga
     with col1:
         st.plotly_chart(fig1, use_container_width=True)
     with col2:
         st.plotly_chart(fig2, use_container_width=True)
+
+    col3, col4 = st.columns([2, 1])  # plataformas precisa de mais espaço
     with col3:
         st.plotly_chart(fig3, use_container_width=True)
-
-    col4, col5, col6 = st.columns([3, 3, 3])
     with col4:
         st.plotly_chart(fig4, use_container_width=True)
+
+    col5, col6 = st.columns([2, 1])  # editoras em barra larga, regiões em barra menor
     with col5:
         st.plotly_chart(fig5, use_container_width=True)
     with col6:
         st.plotly_chart(fig6, use_container_width=True)
-
+        
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
     #st.title("Tendências Temporais")
