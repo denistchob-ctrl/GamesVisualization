@@ -92,11 +92,10 @@ df_filtered = apply_filters(df, selected_genre, selected_year, selected_platform
 
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
 if cb_LimparDados:
-    st.sidebar.write("Foram excluídas as informações redundantes da base de dados.")
+    st.sidebar.write("Foram excluídas as seguintes informações:")
     
     # Excluir registros com campos nulos
     df_filtered = df_filtered.dropna()
-    st.sidebar.write("Foram excluídos os registros que tenham algum campo nulo.")   
     
     # Filtrar apenas plataformas com vendas globais > 100 milhões
     plataformas_validas = (
@@ -105,18 +104,17 @@ if cb_LimparDados:
         .query("Global_Sales > 100")["Platform"].tolist()
     )
     df_filtered = df_filtered[df_filtered["Platform"].isin(plataformas_validas)]
-    st.sidebar.write("Foram excluídos os consoles cujas vendas não ultrapassaram 100 milhões.")
+    st.sidebar.write("* Registros com algum campo nulo.")   
+    st.sidebar.write("* Registros de consoles com vendas inferiores à 100milhões.")
+    st.sidebar.write("* Registros de anos com produção anual inferior à 100 títulos.")
     
-    # 1. Excluir linhas com ano nulo
-    df_filtered = df_filtered[df_filtered["Year"].notnull()]
-
-    # 2. Calcular produção anual
+    # Calcular produção anual
     producao_anual = df_filtered.groupby("Year")["Name"].count()
 
-    # 3. Selecionar apenas anos com >= 100 títulos
+    # Selecionar apenas anos com >= 100 títulos
     anos_validos = producao_anual[producao_anual >= 100].index
 
-    # 4. Filtrar o dataframe
+    # Filtrar o dataframe
     df_filtered = df_filtered[df_filtered["Year"].isin(anos_validos)]
 
 # Opção 0 - Informações sobre a Base de dados
