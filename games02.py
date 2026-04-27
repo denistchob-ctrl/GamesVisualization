@@ -116,16 +116,16 @@ if option.startswith("0"):
     st.write("Dois registros foram descartados devido a informações incompletas.")
     st.write("Analisando a base, ela foi extraída em meados de 2016.")
     st.write("Dito isso, os dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
-    st.write("")
     st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES")
-    st.write("")
+    st.write("Os dados abaixo não estão considerando nenhum filtro, ou seja, são os totais da base de dados completa, sem exclusão de registros nulos ou com vendas globais menores que 100 milhões.")
 
     # --- Primeira tabela: Totais ---
     stats_totals = {
         "Total de Registros": len(df),
         "Total de Gêneros": df["Genre"].nunique(),
         "Total de Consoles": df["Console"].nunique() if "Console" in df.columns else 0,
-        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0
+        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0,
+        "Total de Desenvolvedoras": df["Publisher"].nunique() if "Publisher" in df.columns else 0
     }
     stats_totals_df = pd.DataFrame(list(stats_totals.items()), columns=["Indicador", "Valor"])
 
@@ -352,7 +352,7 @@ elif option.startswith("2"):
     Z = pivot.values
 
     # --- Criar gráfico 3D interativo ---
-    fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y, colorscale="Viridis")])
+    fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y, colorscale="Turbo")])
 
     # Ajustar eixos
     fig.update_layout(
