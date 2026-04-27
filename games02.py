@@ -114,7 +114,8 @@ if option.startswith("0"):
 
 # Dashboard 1 - Visão Geral
 # --- Nova opção: Resumo Integrado ---
-if option.startswith("1"):
+if option.startswith("9"):
+    #versão original por enquanto descartada, mas pode ser reaproveitada para um dashboard de teste
     st.title("Resumo Integrado")
     st.subheader("Vendas, Jogos, Plataformas e Gêneros")
 
@@ -181,10 +182,10 @@ if option.startswith("1"):
     with col6:
         st.plotly_chart(fig6, use_container_width=True)
 
-# Dashboard teste
-elif option.startswith("9"):
-    st.title("Dashboard de Teste")
-    st.write("Este é um dashboard de teste para verificar a funcionalidade do menu lateral e dos filtros.")
+# Resumo Integrado
+elif option.startswith("1"):
+    st.title("Resumo Integrado")
+    st.subheader("Vendas, Jogos, Plataformas e Gêneros")
 
     # --- Preparar os dados ---
     vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
@@ -222,9 +223,7 @@ elif option.startswith("9"):
     ax4.set_title("Vendas por Gênero")
 
     # Ajustar layout
-    fig.tight_layout()
-
-    # Exibir no Streamlit
+    #fig.tight_layout()
     st.pyplot(fig)
 
 # Dashboard 7 - Tendências Temporais
@@ -239,7 +238,10 @@ elif option.startswith("2"):
     st.plotly_chart(fig)
 
 elif option.startswith("3"):
-    st.title("Matriz de Produção de Jogos por Ano e Gênero")
+    st.title("Matriz de Produção de Jogos")
+    st.subheader("Análise dos 5 anos com maior produção")
+    st.subheader("e os 6 gêneros mais produzidos")
+
     #montar uma matriz 3 linhas 5 colunas
     #produção por ano (pegar os 5 anos que mais tiveram produção de games)
     #pegar os 6 generos que mais produziram em todo o periodo
