@@ -1,9 +1,13 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 
 #https://gamesvisualization-v77moozvxrjfgzckeg5rp3.streamlit.app/
 #dados em milhões (vendas)
+#NA BASE COMPLETA, RECEM CARREGADA TEMOS AS SEGUINTES CONSIDERAÇÕES:
 #jogos com o identificador ALL em console é um agrupado de todas as versoes em outros consoles
 #ver o jogo Tekken 8 (all) que teve 3 versoes e cada uma delas tem seus dados também
 #talvez seja interessante ignorar os registros que apontam pra esse console
@@ -86,14 +90,17 @@ if option.startswith("0"):
     st.write("Base de Dados obtida no website Kaggle")
     st.write("https://www.kaggle.com/datasets/gregorut/videogamesales")
     st.write("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
-    st.write("Ele é baseado no BeautifulSoup usando Python.")
+    st.write("Ele é baseado na biblioteca BeautifulSoup usando Python.")
     st.write("Há 16.598 registros.")
     st.write("Dois registros foram descartados devido a informações incompletas.")
     st.write("Analisando a base, ela foi extraída em meados de 2016, então dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
     st.write("Com base na informação acima os dados de 2016 serão desconsiderados.")
     st.write("")
-    st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHOES")
+    st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES")
+    st.write("...")
     st.write("")
+
+    st.write (df_filtered.describe(include="O"))
 
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
