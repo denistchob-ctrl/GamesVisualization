@@ -40,8 +40,8 @@ option = st.sidebar.radio(
         "5. Editoras e Desenvolvedoras",
         "6. Vendas por Região",
         "7. Tendências Temporais",
-        "8. Teste de Gráfico",
-        "9. Teste 2",
+        "8. Produção de Jogos por Ano/Gênero",
+        "9. Dados Gerais da Base de Dados",
         "0. Informações sobre a Base de Dados"
     ]
 )
@@ -204,26 +204,28 @@ elif option.startswith("8"):
         aggfunc="count"
     ).reindex(index=top_genres, columns=top_years, fill_value=0)
 
-    # Exibir tabela no Streamlit
-    st.write(f"Top 5 Anos com Maior Produção: {', '.join(map(str, top_years))}")
-    st.write(f"Top 6 Gêneros Mais Produzidos: {', '.join(top_genres)}")
-    st.subheader("Cruzamento de Gêneros × Anos")
-    st.dataframe(pivot)
-
     # Exibir heatmap
     fig = px.imshow(
         pivot.values,
         labels=dict(x="Ano", y="Gênero", color="Quantidade de Jogos"),
         x=pivot.columns.astype(str),
         y=pivot.index,
+        color_continuous_scale="Reds",  # muda a paleta de cores
         text_auto=True  # mostra os valores dentro das células
     )
+    # Algumas opções de paletas de cores para o PLOTLY:
+    # "Blues" → tons de azul claro a escuro.
+    # "Reds" → tons de vermelho.
+    # "Greens" → tons de verde.
+    # "Viridis" → gradiente moderno, muito usado em ciência de dados.
+    # "Cividis" → paleta otimizada para acessibilidade (daltonismo).
+    # "Turbo" → cores vibrantes e contrastantes.
     fig.update_xaxes(side="top")
 
     st.plotly_chart(fig, use_container_width=True)
 
 elif option.startswith("9"):
-    st.title("Dados Nulos e Não Nulos por Coluna")
+    st.title("Dados Gerais da Base de Dados")
     # Calcular nulos e não nulos
     null_counts = df.isnull().sum()
     non_null_counts = df.notnull().sum()
@@ -244,3 +246,42 @@ elif option.startswith("9"):
     )
     st.plotly_chart(fig, use_container_width=True)
 
+    st.title("Resumo da Base de Dados")
+
+    # Estatísticas principais
+    stats = {
+        "Total de Registros": len(df),
+        "Total de Gêneros": df["Genre"].nunique(),
+        "Total de Consoles": df["Console"].nunique() if "Console" in df.columns else 0,
+        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0,
+        "Ano Mínimo": df["Year"].min(),
+        "Ano Máximo": df["Year"].max(),
+        "Menor Venda América do Norte": df["NA_Sales"].min(),
+        "Maior Venda América do Norte": df["NA_Sales"].max(),
+        "Menor Venda Europa": df["EU_Sales"].min(),
+        "Maior Venda Europa": df["EU_Sales"].max(),
+        "Menor Venda Japão": df["JP_Sales"].min(),
+        "Maior Venda Japão": df["JP_Sales"].max(),
+        "Menor Venda Outros": df["Other_Sales"].min(),
+        "Maior Venda Outros": df["Other_Sales"].max(),
+        "Menor Venda Global": df["Global_Sales"].min(),
+        "Maior Venda Global": df["Global_Sales"].max(),
+    }
+
+    # Converter para DataFrame
+    stats_df = pd.DataFrame(list(stats.items()), columns=["Indicador", "Valor"])
+
+    # Exibir tabela
+    st.subheader("Estatísticas Gerais")
+    st.dataframe(stats_df)
+
+    # Exibir gráfico de barras
+    fig = px.bar(
+        stats_df,
+        x="Indicador",
+        y="Valor",
+        title="Resumo Estatístico da Base",
+        text_auto=True
+    )
+    fig.update_layout(xaxis_tickangle=-45)
+    st.plotly_chart(fig, use_container_width=True)
