@@ -309,13 +309,13 @@ elif option.startswith("3"):
     #pegar os 6 generos que mais produziram em todo o periodo
 
     # Top 5 anos com maior produção
-    top_years = sorted(df["Year"].value_counts().nlargest(5).index.tolist())
+    top_years = sorted(df_filtered["Year"].value_counts().nlargest(5).index.tolist())
 
     # Top 6 gêneros mais produzidos
-    top_genres = sorted(df["Genre"].value_counts().nlargest(6).index.tolist())
+    top_genres = sorted(df_filtered["Genre"].value_counts().nlargest(6).index.tolist())
 
     # Criar tabela cruzada (pivot)
-    matrix = df[df["Year"].isin(top_years) & df["Genre"].isin(top_genres)]
+    matrix = df_filtered[df_filtered["Year"].isin(top_years) & df_filtered["Genre"].isin(top_genres)]
     pivot = matrix.pivot_table(
         index="Genre", 
         columns="Year", 
@@ -344,7 +344,7 @@ elif option.startswith("3"):
     st.plotly_chart(fig, use_container_width=True)
 
     fig, ax = plt.subplots(figsize=(8,6))
-    sns.heatmap(df.corr(numeric_only=True), annot=True, ax=ax, cmap="coolwarm")
+    sns.heatmap(df_filtered.corr(numeric_only=True), annot=True, ax=ax, cmap="coolwarm")
     ax.set_title("Correlação entre Variáveis Numéricas")
     st.pyplot(fig)
 
