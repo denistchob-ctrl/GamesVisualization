@@ -190,10 +190,10 @@ elif option.startswith("8"):
     #pegar os 6 generos que mais produziram em todo o periodo
 
     # Top 5 anos com maior produção
-    top_years = df["Year"].value_counts().nlargest(5).index.tolist()
+    top_years = sorted(df["Year"].value_counts().nlargest(5).index.tolist())
 
     # Top 6 gêneros mais produzidos
-    top_genres = df["Genre"].value_counts().nlargest(6).index.tolist()
+    top_genres = sorted(df["Genre"].value_counts().nlargest(6).index.tolist())
 
     # Criar tabela cruzada (pivot)
     matrix = df[df["Year"].isin(top_years) & df["Genre"].isin(top_genres)]
