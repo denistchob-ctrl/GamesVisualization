@@ -43,8 +43,6 @@ option = st.sidebar.radio(
         "1. Resumo Integrado",
         "2. Tendências Temporais",
         "3. Produção de Jogos por Ano/Gênero",
-        "8. teste 3d",
-        "9. teste 3d com slider",
         "0. Informações sobre a Base de Dados"
     ]
 )
