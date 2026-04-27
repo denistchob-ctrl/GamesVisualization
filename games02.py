@@ -187,17 +187,15 @@ elif option.startswith("8"):
     st.title("Matriz de Produção de Jogos por Ano e Gênero")
     #montar uma matriz 3 linhas 5 colunas
     #produção por ano (pegar os 5 anos que mais tiveram produção de games)
-    #pegar os 3 generos que mais produziram em todo o periodo
-    # Garantir que Year seja inteiro
-    df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
+    #pegar os 6 generos que mais produziram em todo o periodo
 
     # Top 5 anos com maior produção
     top_years = df["Year"].value_counts().nlargest(5).index.tolist()
 
-    # Top 8 gêneros mais produzidos
-    top_genres = df["Genre"].value_counts().nlargest(8).index.tolist()
+    # Top 6 gêneros mais produzidos
+    top_genres = df["Genre"].value_counts().nlargest(6).index.tolist()
 
-    # Criar tabela cruzada (matriz)
+    # Criar tabela cruzada (pivot)
     matrix = df[df["Year"].isin(top_years) & df["Genre"].isin(top_genres)]
     pivot = matrix.pivot_table(
         index="Genre", 
@@ -206,12 +204,17 @@ elif option.startswith("8"):
         aggfunc="count"
     ).reindex(index=top_genres, columns=top_years, fill_value=0)
 
+    # Exibir tabela no Streamlit
+    st.subheader("Cruzamento de Gêneros × Anos")
+    st.dataframe(pivot)
+
     # Exibir heatmap
     fig = px.imshow(
         pivot.values,
         labels=dict(x="Ano", y="Gênero", color="Quantidade de Jogos"),
         x=pivot.columns.astype(str),
-        y=pivot.index
+        y=pivot.index,
+        text_auto=True  # mostra os valores dentro das células
     )
     fig.update_xaxes(side="top")
 
