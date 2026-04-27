@@ -269,8 +269,9 @@ elif option.startswith("1"):
     ax4.tick_params(axis="x", rotation=45)
 
     # Gráfico 3 - Distribuição por Plataformas (barras verdes)
+    cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(top_jogos)))
     cores_plataformas = cm.tab10(range(len(plataformas)))  # paleta com até 10 cores distintas
-    ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color=cores_plataformas)
+    ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color=cores_auto)
     ax3.set_title("Vendas por Plataforma")
     ax3.set_ylabel("Vendas Totais (em milhões)")
     ax3.tick_params(axis="x", rotation=45)
