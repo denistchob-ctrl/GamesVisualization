@@ -110,6 +110,8 @@ if cb_LimparDados:
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
     st.title("Informações sobre a Base de Dados")
+    st.write("A base de dados contém informações sobre vendas de jogos, incluindo detalhes como nome do jogo, plataforma, gênero, desenvolvedora, ano de lançamento e vendas em diferentes regiões." \
+    " Ela é amplamente utilizada para análises de mercado e tendências na indústria de jogos.")
     st.write("Base de Dados obtida no website Kaggle (https://www.kaggle.com/datasets/gregorut/videogamesales).")
     st.write("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
     st.write("Ele é baseado na biblioteca BeautifulSoup usando Python.")
@@ -124,7 +126,8 @@ if option.startswith("0"):
         "Total de Registros": len(df),
         "Total de Gêneros": df["Genre"].nunique(),
         "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0,
-        "Total de Desenvolvedoras": df["Publisher"].nunique() if "Publisher" in df.columns else 0
+        "Total de Desenvolvedoras": df["Publisher"].nunique() if "Publisher" in df.columns else 0,
+        "Total de Jogos que aparecem em mais de uma plataforma": df[df.duplicated(subset=["Name"], keep=False)]["Name"].nunique()
     }
     stats_totals_df = pd.DataFrame(list(stats_totals.items()), columns=["Indicador", "Valor"])
 
