@@ -42,10 +42,10 @@ option = st.sidebar.radio(
         "2. Tendências Temporais",
         "3. Produção de Jogos por Ano/Gênero",
         "4. Dados Gerais da Base de Dados",
-        "9. Dashboard de Teste",
         "0. Informações sobre a Base de Dados"
     ]
 )
+#        "9. Dashboard de Teste",
 
 # --- Filtros na barra lateral ---
 # Gênero
@@ -294,7 +294,7 @@ elif option.startswith("4"):
 
     # --- Segunda tabela: Mínimos e Máximos ---
     stats_min_max = [
-        ("Ano", df["Year"].min(), df["Year"].max()),
+        ("Produção por Ano", df["Year"].min(), df["Year"].max()),
         ("Vendas América do Norte", df["NA_Sales"].min(), df["NA_Sales"].max()),
         ("Vendas Europa", df["EU_Sales"].min(), df["EU_Sales"].max()),
         ("Vendas Japão", df["JP_Sales"].min(), df["JP_Sales"].max()),
