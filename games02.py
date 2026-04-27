@@ -193,6 +193,21 @@ elif option.startswith("8"):
     fig.show()
 
 elif option.startswith("9"):
-    st.title("Teste 2")
+    st.title("Dados Nulos e Não Nulos por Coluna")
+    null_counts = df.isnull().sum()
+    non_null_counts = df.notnull().sum()
+
+    null_df = pd.DataFrame({
+        "Nulos": null_counts,
+        "Não Nulos": non_null_counts
+    })
+
+    plt.style.use("seaborn-v0_8")
+    ax = null_df.plot(kind="bar", figsize=(12, 6), rot=45)
+    plt.title("Contagem de Valores Nulos e Não Nulos por Coluna")
+    plt.ylabel("Quantidade de Registros")
+    plt.xlabel("Colunas")
+    plt.tight_layout()
+    plt.show()
 
 
