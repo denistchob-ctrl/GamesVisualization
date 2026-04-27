@@ -381,57 +381,37 @@ elif option.startswith("8"):
     # Criar tabela cruzada (gêneros x anos)
     pivot = tendencias.pivot(index="Genre", columns="Year", values="Global_Sales").fillna(0)
 
-    # --- Criar frames para cada ano ---
+    X, Y = np.meshgrid(pivot.columns, range(len(pivot.index)))
+    Z = pivot.values
+
+    # --- Gráfico inicial (superfície completa) ---
+    fig = go.Figure()
+
+    fig.add_trace(go.Surface(z=Z, x=X, y=Y, colorscale="Viridis"))
+
+    # --- Frames para slider (um ano por vez) ---
     frames = []
     for ano in anos:
-        z = pivot[ano].values.reshape(len(generos), 1)  # vendas do ano
+        z = pivot[ano].values.reshape(len(generos), 1)
         x = [ano] * len(generos)
-        y = generos
+        y = list(range(len(generos)))
         frames.append(go.Frame(
-            data=[go.Bar3d(x=x, y=y, z=z.flatten(), opacity=0.8)],
+            data=[go.Scatter3d(x=x, y=y, z=z.flatten(),
+                            mode="markers+lines",
+                            marker=dict(size=5, color=z.flatten(), colorscale="Viridis"))],
             name=str(ano)
         ))
 
-    # --- Gráfico inicial (primeiro ano) ---
-    ano_inicial = anos[0]
-    z_inicial = pivot[ano_inicial].values.reshape(len(generos), 1)
-    x_inicial = [ano_inicial] * len(generos)
-    y_inicial = generos
+    fig.frames = frames
 
-    fig = go.Figure(
-        data=[go.Bar3d(x=x_inicial, y=y_inicial, z=z_inicial.flatten(), opacity=0.8)],
-        frames=frames
-    )
-
-    # --- Configurar slider ---
+    # --- Layout com slider ---
     fig.update_layout(
-        title="Tendências Temporais",
+        title="Tendências Temporais (Superfície 3D com Slider)",
         scene=dict(
-            xaxis=dict(title="Ano"),
-            yaxis=dict(title="Gênero"),
+            xaxis=dict(title="Ano", tickvals=list(pivot.columns), ticktext=list(pivot.columns)),
+            yaxis=dict(title="Gênero", tickvals=list(range(len(generos))), ticktext=generos),
             zaxis=dict(title="Vendas Totais (em milhões)")
         ),
-        updatemenus=[{
-            "buttons": [
-                {"args": [None, {"frame": {"duration": 500, "redraw": True},
-                                "fromcurrent": True}],
-                "label": "Play",
-                "method": "animate"},
-                {"args": [[None], {"frame": {"duration": 0, "redraw": True},
-                                "mode": "immediate",
-                                "transition": {"duration": 0}}],
-                "label": "Pause",
-                "method": "animate"}
-            ],
-            "direction": "left",
-            "pad": {"r": 10, "t": 87},
-            "showactive": False,
-            "type": "buttons",
-            "x": 0.1,
-            "xanchor": "right",
-            "y": 0,
-            "yanchor": "top"
-        }],
         sliders=[{
             "steps": [
                 {"args": [[str(ano)], {"frame": {"duration": 300, "redraw": True},
@@ -455,4 +435,3 @@ elif option.startswith("9"):
     #
     #3ª opção do mesmo gráfico, mas em 3D interativo
     st.write("Em desenvolvimento...")
-    
