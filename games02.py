@@ -123,7 +123,6 @@ if option.startswith("0"):
     stats_totals = {
         "Total de Registros": len(df),
         "Total de Gêneros": df["Genre"].nunique(),
-        "Total de Consoles": df["Console"].nunique() if "Console" in df.columns else 0,
         "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0,
         "Total de Desenvolvedoras": df["Publisher"].nunique() if "Publisher" in df.columns else 0
     }
