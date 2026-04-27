@@ -84,6 +84,10 @@ if not cb_LimparDados:
     st.sidebar.write("")
 else:
     st.sidebar.write("Foram excluidas as informações redundantes da base de dados.")
+    #excluir os registros que tenham algum campo nulo
+    df_filtered = df_filtered.dropna()
+    st.sidebar.write("Foram excluidos os registros que tenham algum campo nulo.")   
+
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
@@ -180,19 +184,33 @@ elif option.startswith("7"):
     st.plotly_chart(fig)
 
 elif option.startswith("8"):
-    st.title("Teste\n Mostrar aqui os 5 anos que mais produziram games\ne 3 linhas com os gêneros que mais tiveram games produzidos")
-
-    data=[[1, 25, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, 5, 20]]
+    st.title("Matriz de Produção de Jogos por Ano e Gênero")
     #montar uma matriz 3 linhas 5 colunas
     #produção por ano (pegar os 5 anos que mais tiveram produção de games)
     #pegar os 3 generos que mais produziram em todo o periodo
-    fig = px.imshow(data,
-                    labels=dict(x="Day of Week", y="Time of Day", color="Productivity"),
-                    x=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                    y=['Morning', 'Afternoon', 'Evening']
-                )
+    # Top 5 anos com maior produção
+    top_years = df["Year"].value_counts().nlargest(5).index.tolist()
+
+    # Top 3 gêneros mais produzidos
+    top_genres = df["Genre"].value_counts().nlargest(3).index.tolist()
+
+    # Criar tabela cruzada (matriz)
+    matrix = df[df["Year"].isin(top_years) & df["Genre"].isin(top_genres)]
+    pivot = matrix.pivot_table(index="Genre", columns="Year", values="Name", aggfunc="count").fillna(0)
+
+    # Garantir ordem dos anos e gêneros
+    pivot = pivot.loc[top_genres, top_years]
+
+    # Exibir heatmap
+    fig = px.imshow(
+        pivot.values,
+        labels=dict(x="Ano", y="Gênero", color="Quantidade de Jogos"),
+        x=pivot.columns.astype(str),
+        y=pivot.index
+    )
     fig.update_xaxes(side="top")
-    fig.show()
+
+    st.plotly_chart(fig, use_container_width=True)
 
 elif option.startswith("9"):
     st.title("Dados Nulos e Não Nulos por Coluna")
@@ -206,10 +224,6 @@ elif option.startswith("9"):
         "Nulos": null_counts.values,
         "Não Nulos": non_null_counts.values
     })
-
-    # Exibir tabela
-    st.subheader("Tabela de Nulos e Não Nulos")
-    st.dataframe(null_df)
 
     # Exibir gráfico interativo
     fig = px.bar(
