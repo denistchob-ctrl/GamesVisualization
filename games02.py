@@ -109,7 +109,7 @@ if cb_LimparDados:
     plataformas_validas = (
         df.groupby("Platform")["Vendas Globais"].sum()
         .reset_index()
-        .query("'Vendas Globais' > 100")["Platform"].tolist()
+        .query("`Vendas Globais` > 100")["Platform"].tolist()
     )
     df_filtered = df_filtered[df_filtered["Platform"].isin(plataformas_validas)]
     st.sidebar.write("* Registros com algum campo nulo.")   
