@@ -102,6 +102,7 @@ if option.startswith("0"):
     st.write("")
 
     st.write (df_filtered.describe(include="O"))
+    st.write(df.isnull().sum())
 
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
