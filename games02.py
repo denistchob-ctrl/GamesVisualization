@@ -118,7 +118,7 @@ if option.startswith("0"):
 
 # Dashboard 1 - Visão Geral
 # --- Nova opção: Resumo Integrado ---
-if option.startswith("9"):
+if option.startswith("teste original"):
     #versão original por enquanto descartada, mas pode ser reaproveitada para um dashboard de teste
     st.title("Resumo Integrado")
     st.subheader("Vendas, Jogos, Plataformas e Gêneros")
