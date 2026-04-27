@@ -109,15 +109,14 @@ if cb_LimparDados:
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
     st.title("Informações sobre a Base de Dados")
-    st.write("Base de Dados obtida no website Kaggle")
-    st.write("https://www.kaggle.com/datasets/gregorut/videogamesales")
+    st.write("Base de Dados obtida no website Kaggle (https://www.kaggle.com/datasets/gregorut/videogamesales).")
     st.write("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
     st.write("Ele é baseado na biblioteca BeautifulSoup usando Python.")
-    st.write("Dois registros foram descartados devido a informações incompletas.")
+    st.write("Dois registros foram descartados devido a informações incompletas conforme informações do autor.")
     st.write("Analisando a base, ela foi extraída em meados de 2016.")
     st.write("Dito isso, os dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
-    st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES")
-    st.write("Os dados abaixo não estão considerando nenhum filtro, ou seja, são os totais da base de dados completa, sem exclusão de registros nulos ou com vendas globais menores que 100 milhões.")
+    st.write("** DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES **")
+    st.write("Os dados abaixo não estão considerando nenhum filtro aplicado, ou seja, são os totais da base completa.")
 
     # --- Primeira tabela: Totais ---
     stats_totals = {
