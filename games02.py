@@ -204,11 +204,11 @@ elif option.startswith("1"):
     ax1.set_ylabel("Vendas Totais (em milhões)")
 
     # Gráfico 2 - Top 10 Jogos (barras vermelhas)
-    ax2.bar(top_jogos["Name"], top_jogos["Global_Sales"], color="red")
-    ax2.set_title("Top 10 Jogos Mais Vendidos")
-    ax2.set_xlabel("Título do Jogo")
-    ax2.set_ylabel("Vendas Totais (em milhões)")
-    ax2.tick_params(axis="x", rotation=45)
+    ax4.bar(top_jogos["Name"], top_jogos["Global_Sales"], color="red")
+    ax4.set_title("Top 10 Jogos Mais Vendidos")
+    ax4.set_xlabel("Título do Jogo")
+    ax4.set_ylabel("Vendas Totais (em milhões)")
+    ax4.tick_params(axis="x", rotation=45)
 
     # Gráfico 3 - Distribuição por Plataformas (barras verdes)
     ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color="green")
@@ -219,8 +219,8 @@ elif option.startswith("1"):
 
     # Gráfico 4 - Distribuição por Gênero (pizza colorida)
     cores = plt.cm.tab20.colors  # paleta de cores variadas
-    ax4.pie(generos["Global_Sales"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
-    ax4.set_title("Vendas por Gênero")
+    ax2.pie(generos["Global_Sales"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
+    ax2.set_title("Vendas por Gênero")
 
     # Ajustar layout
     #fig.tight_layout()
