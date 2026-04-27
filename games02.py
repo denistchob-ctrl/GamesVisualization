@@ -161,7 +161,7 @@ if option.startswith("1"):
                , title="Distribuição Geográfica das Vendas por Região")
 
    # Layout organizado: 2 colunas em cima, 2 embaixo
-    col1, col2, col3 = st.columns([1.5, 1.5, 1.5])
+    col1, col2, col3 = st.columns([3, 3, 3])
     with col1:
         st.plotly_chart(fig1, use_container_width=True)
     with col2:
@@ -169,7 +169,7 @@ if option.startswith("1"):
     with col3:
         st.plotly_chart(fig3, use_container_width=True)
 
-    col4, col5, col6 = st.columns([1.5, 1.5, 1.5])
+    col4, col5, col6 = st.columns([3, 3, 3])
     with col4:
         st.plotly_chart(fig4, use_container_width=True)
     with col5:
