@@ -132,13 +132,13 @@ if option.startswith("1"):
     plataformas = df_filtered.groupby("Platform")["Global_Sales"].sum().reset_index()
     fig3 = px.bar(plataformas, x="Platform", y="Global_Sales",
                   labels={"Platform": "Plataforma", "Global_Sales": "Vendas Totais (em milhões)"},
-                  title="Distribuição de Vendas por Plataforma")
+                  title="Vendas por Plataforma")
 
     # Gráfico 4 - Distribuição por Gênero
     generos = df_filtered.groupby("Genre")["Global_Sales"].sum().reset_index()
     fig4 = px.pie(generos, names="Genre", values="Global_Sales",
                   labels={"Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
-                  title="Distribuição de Vendas por Gênero")
+                  title="Vendas por Gênero")
 
     # Gráfico 5 - Top 10 Editoras/Desenvolvedoras
     editoras = df_filtered.groupby("Publisher")["Global_Sales"].sum().nlargest(10).reset_index()
@@ -158,14 +158,14 @@ if option.startswith("1"):
     })
     fig6 = px.bar(regioes, x="Region", y="Sales" 
                , labels={"Region": "Região", "Sales": "Vendas Totais (em milhões)"}
-               , title="Distribuição Geográfica das Vendas por Região")
+               , title="Vendas por Região")
 
     # Layout organizado com proporções
     col1, col2 = st.columns([2, 1])  # col1 mais larga
     with col1:
-        st.plotly_chart(fig1, use_container_width=True)
+        st.plotly_chart(fig1, use_container_width=False)
     with col2:
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, use_container_width=False)
 
     col3, col4 = st.columns([2, 1])  # plataformas precisa de mais espaço
     with col3:
@@ -178,7 +178,7 @@ if option.startswith("1"):
         st.plotly_chart(fig5, use_container_width=True)
     with col6:
         st.plotly_chart(fig6, use_container_width=True)
-        
+
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
     #st.title("Tendências Temporais")
