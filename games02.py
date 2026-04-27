@@ -387,6 +387,32 @@ elif option.startswith("2"):
 
     st.plotly_chart(fig, use_container_width=True)
 
+    # Agrupar vendas por gênero e região
+    regions = ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"]
+    region_totals = df_filtered[regions].sum()
+
+    genre_sales = df_filtered.groupby("Genre")["Global_Sales"].sum().sort_values(ascending=False)
+    genre_region = df_filtered.groupby("Genre")[regions].sum()
+    genre_region = genre_region.loc[genre_sales.index]
+    
+    # Criar figura
+    fig, ax = plt.subplots(figsize=(12,6))
+
+    bottom = np.zeros(len(genre_region))
+    for region in regions:
+        ax.bar(genre_region.index, genre_region[region], bottom=bottom, label=region)
+        bottom += genre_region[region].values
+
+    ax.set_title("Vendas por Gênero/Região")
+    ax.set_xlabel("Gênero")
+    ax.set_ylabel("Vendas Totais (em Milhões)")
+    ax.tick_params(axis="x", rotation=45)
+    ax.legend()
+    fig.tight_layout()
+
+    # Exibir no Streamlit
+    st.pyplot(fig)
+
 elif option.startswith("8"):
 
     #
