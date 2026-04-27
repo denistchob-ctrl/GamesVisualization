@@ -161,19 +161,19 @@ if option.startswith("1"):
                , title="Vendas por Região")
 
     # Layout organizado com proporções
-    col1, col2 = st.columns([2, 1])  # col1 mais larga
+    col1, col2 = st.columns([2, 2])  # col1 mais larga
     with col1:
         st.plotly_chart(fig1, use_container_width=False)
     with col2:
         st.plotly_chart(fig2, use_container_width=False)
 
-    col3, col4 = st.columns([2, 1])  # plataformas precisa de mais espaço
+    col3, col4 = st.columns([2, 2])  # plataformas precisa de mais espaço
     with col3:
         st.plotly_chart(fig3, use_container_width=True)
     with col4:
         st.plotly_chart(fig4, use_container_width=True)
 
-    col5, col6 = st.columns([2, 1])  # editoras em barra larga, regiões em barra menor
+    col5, col6 = st.columns([2, 2])  # editoras em barra larga, regiões em barra menor
     with col5:
         st.plotly_chart(fig5, use_container_width=True)
     with col6:
