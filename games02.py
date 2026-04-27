@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 #https://gamesvisualization-v77moozvxrjfgzckeg5rp3.streamlit.app/
 #dados em milhões (vendas)
@@ -25,6 +25,7 @@ def load_data():
 
 df = load_data()
 # Converter Year para inteiro, mantendo NaN se houver
+df = df.replace(["N/A", "Unknow"], np.nan)
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
 
 # Menu lateral
