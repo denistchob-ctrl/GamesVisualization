@@ -44,6 +44,8 @@ option = st.sidebar.radio(
         "2. Tendências Temporais",
         "3. Produção de Jogos por Ano/Gênero",
         "4. Dados Gerais da Base de Dados",
+        "8. teste 3d",
+        "9. teste 3d com slider",
         "0. Informações sobre a Base de Dados"
     ]
 )
@@ -364,6 +366,8 @@ elif option.startswith("2"):
 
     st.plotly_chart(fig, use_container_width=True)
 
+elif option.startswith("8"):
+
     #
     #
     #
@@ -443,6 +447,8 @@ elif option.startswith("2"):
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+elif option.startswith("9"):
 
     #
     #
