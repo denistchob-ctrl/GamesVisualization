@@ -31,17 +31,18 @@ df = df.rename(columns={
     "NA_Sales": "América do Norte",
     "EU_Sales": "Europa",
     "JP_Sales": "Japão",
-    "Global_Sales": "Outros Países"
+    "Other_Sales": "Outros Países",
+    "Global_Sales": "Vendas Globais"
 })
 
 # Converter Year para inteiro, mantendo NaN se houver
 df = df.replace(["N/A", "Unknown"], np.nan)
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
-# Garantir que Outros Países seja numérico
-df["Outros Países"] = pd.to_numeric(df["Outros Países"], errors="coerce")
+# Garantir que Vendas Globais seja numérico
+df["Vendas Globais"] = pd.to_numeric(df["Vendas Globais"], errors="coerce")
 
 # Agrupar por plataforma e somar vendas globais
-platform_sales = df.groupby("Platform", as_index=False)["Outros Países"].sum()
+platform_sales = df.groupby("Platform", as_index=False)["Vendas Globais"].sum()
 
 # Menu lateral
 st.sidebar.title("Venha explorar os dados de vendas de jogos!")
@@ -106,9 +107,9 @@ if cb_LimparDados:
     
     # Filtrar apenas plataformas com vendas globais > 100 milhões
     plataformas_validas = (
-        df.groupby("Platform")["Outros Países"].sum()
+        df.groupby("Platform")["Vendas Globais"].sum()
         .reset_index()
-        .query("Outros Países > 100")["Platform"].tolist()
+        .query("'Vendas Globais' > 100")["Platform"].tolist()
     )
     df_filtered = df_filtered[df_filtered["Platform"].isin(plataformas_validas)]
     st.sidebar.write("* Registros com algum campo nulo.")   
@@ -117,11 +118,8 @@ if cb_LimparDados:
     
     # Calcular produção anual
     producao_anual = df_filtered.groupby("Year")["Name"].count()
-
     # Selecionar apenas anos com >= 100 títulos
     anos_validos = producao_anual[producao_anual >= 100].index
-
-    # Filtrar o dataframe
     df_filtered = df_filtered[df_filtered["Year"].isin(anos_validos)]
 
 # Opção 0 - Informações sobre a Base de dados
@@ -154,8 +152,8 @@ if option.startswith("0"):
         ("Vendas América do Norte", df["América do Norte"].min(), df["América do Norte"].max()),
         ("Vendas Europa", df["Europa"].min(), df["Europa"].max()),
         ("Vendas Japão", df["Japão"].min(), df["Japão"].max()),
-        ("Vendas Outros", df["Other_Sales"].min(), df["Other_Sales"].max()),
-        ("Vendas Globais", df["Outros Países"].min(), df["Outros Países"].max())
+        ("Vendas Outros", df["Outros Países"].min(), df["Outros Países"].max()),
+        ("Vendas Globais", df["Vendas Globais"].min(), df["Vendas Globais"].max())
     ]
     stats_min_max_df = pd.DataFrame(stats_min_max, columns=["Indicador", "Mínimo", "Máximo"])
 
@@ -199,33 +197,33 @@ if option.startswith("teste original"):
     st.subheader("Vendas, Jogos, Plataformas e Gêneros")
 
     # Gráfico 1 - Vendas Globais por Ano
-    vendas_por_ano = df_filtered.groupby("Year")["Outros Países"].sum().reset_index()
-    fig1 = px.line(vendas_por_ano, x="Year", y="Outros Países",
-                   labels={"Year": "Ano", "Outros Países": "Vendas Totais (em milhões)"},
+    vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
+    fig1 = px.line(vendas_por_ano, x="Year", y="Vendas Globais",
+                   labels={"Year": "Ano", "Vendas Globais": "Vendas Totais (em milhões)"},
                    title="Vendas Globais por Ano")
 
     # Gráfico 2 - Top 10 Jogos
-    top_jogos = df_filtered.groupby("Name")["Outros Países"].sum().nlargest(10).reset_index()
-    fig2 = px.bar(top_jogos, x="Name", y="Outros Países",
-                  labels={"Name": "Título", "Outros Países": "Vendas Totais (em milhões)"},
+    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
+    fig2 = px.bar(top_jogos, x="Name", y="Vendas Globais",
+                  labels={"Name": "Título", "Vendas Globais": "Vendas Totais (em milhões)"},
                   title="Top 10 Jogos Mais Vendidos")
 
     # Gráfico 3 - Distribuição por Plataformas
-    plataformas = df_filtered.groupby("Platform")["Outros Países"].sum().reset_index()
-    fig3 = px.bar(plataformas, x="Platform", y="Outros Países",
-                  labels={"Platform": "Plataforma", "Outros Países": "Vendas Totais (em milhões)"},
+    plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
+    fig3 = px.bar(plataformas, x="Platform", y="Vendas Globais",
+                  labels={"Platform": "Plataforma", "Vendas Globais": "Vendas Totais (em milhões)"},
                   title="Vendas por Plataforma")
 
     # Gráfico 4 - Distribuição por Gênero
-    generos = df_filtered.groupby("Genre")["Outros Países"].sum().reset_index()
-    fig4 = px.pie(generos, names="Genre", values="Outros Países",
-                  labels={"Genre": "Gênero", "Outros Países": "Vendas Totais (em milhões)"},
+    generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
+    fig4 = px.pie(generos, names="Genre", values="Vendas Globais",
+                  labels={"Genre": "Gênero", "Vendas Globais": "Vendas Totais (em milhões)"},
                   title="Vendas por Gênero")
 
     # Gráfico 5 - Top 10 Editoras/Desenvolvedoras
-    editoras = df_filtered.groupby("Publisher")["Outros Países"].sum().nlargest(10).reset_index()
-    fig5 = px.bar(editoras, x="Publisher", y="Outros Países"
-               , labels={"Publisher": "Desenvolvedor", "Outros Países": "Vendas Totais (em milhões)"}
+    editoras = df_filtered.groupby("Publisher")["Vendas Globais"].sum().nlargest(10).reset_index()
+    fig5 = px.bar(editoras, x="Publisher", y="Vendas Globais"
+               , labels={"Publisher": "Desenvolvedor", "Vendas Globais": "Vendas Totais (em milhões)"}
                , title="Top 10 Desenvolvedoras")
 
     # Gráfico 6 - Distribuição Geográfica das Venda
@@ -235,7 +233,7 @@ if option.startswith("teste original"):
             df_filtered["América do Norte"].sum(),
             df_filtered["Europa"].sum(),
             df_filtered["Japão"].sum(),
-            df_filtered["Other_Sales"].sum()
+            df_filtered["Outros Países"].sum()
         ]
     })
     fig6 = px.bar(regioes, x="Region", y="Sales" 
@@ -267,24 +265,24 @@ elif option.startswith("1"):
     st.subheader("Vendas, Jogos, Plataformas e Gêneros")
 
     # --- Preparar os dados ---
-    vendas_por_ano = df_filtered.groupby("Year")["Outros Países"].sum().reset_index()
-    top_jogos = df_filtered.groupby("Name")["Outros Países"].sum().nlargest(10).reset_index()
-    plataformas = df_filtered.groupby("Platform")["Outros Países"].sum().reset_index()
-    generos = df_filtered.groupby("Genre")["Outros Países"].sum().reset_index()
+    vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
+    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
+    plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
+    generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
 
     # --- Criar subplots 2x2 ---
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     ax1, ax2, ax3, ax4 = axes.flatten()
 
     # Gráfico 1 - Vendas Globais por Ano (linha azul)
-    ax1.plot(vendas_por_ano["Year"], vendas_por_ano["Outros Países"], marker="o", color="blue")
+    ax1.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue")
     ax1.set_title("Vendas Globais por Ano")
     ax1.set_xlabel("")
     ax1.set_ylabel("Vendas Totais (em milhões)")
 
     # Gráfico 2 - Top 10 Jogos (barras vermelhas)
     cores_jogos = ["red", "blue", "green", "orange", "purple", "cyan", "magenta", "yellow", "brown", "pink"]
-    ax4.bar(top_jogos["Name"], top_jogos["Outros Países"], color=cores_jogos[:len(top_jogos)])
+    ax4.bar(top_jogos["Name"], top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
     ax4.set_title("Top 10 Jogos Mais Vendidos")
     ax4.set_ylabel("Vendas Totais (em milhões)")
     ax4.tick_params(axis="x", rotation=45)
@@ -292,14 +290,14 @@ elif option.startswith("1"):
     # Gráfico 3 - Distribuição por Plataformas (barras verdes)
     cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(top_jogos)))
     cores_plataformas = cm.tab10(range(len(plataformas)))  # paleta com até 10 cores distintas
-    ax3.bar(plataformas["Platform"], plataformas["Outros Países"], color=cores_auto)
+    ax3.bar(plataformas["Platform"], plataformas["Vendas Globais"], color=cores_auto)
     ax3.set_title("Vendas por Plataforma")
     ax3.set_ylabel("Vendas Totais (em milhões)")
     ax3.tick_params(axis="x", rotation=45)
 
     # Gráfico 4 - Distribuição por Gênero (pizza colorida)
     cores = plt.cm.tab20.colors  # paleta de cores variadas
-    ax2.pie(generos["Outros Países"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
+    ax2.pie(generos["Vendas Globais"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
     ax2.set_title("Vendas por Gênero")
 
     # Ajustar layout
@@ -360,18 +358,18 @@ elif option.startswith("2"):
     #st.title("Tendências Temporais")
     # Exemplo: evolução de gêneros ao longo dos anos
 
-    tendencias = df_filtered.groupby(["Year", "Genre"])["Outros Países"].sum().reset_index()
-    fig = px.line(tendencias, x="Year", y="Outros Países", color="Genre", 
-                  labels={"Year": "Ano de Publicação", "Genre": "Gênero", "Outros Países": "Vendas Totais (em milhões)"},
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Vendas Globais"].sum().reset_index()
+    fig = px.line(tendencias, x="Year", y="Vendas Globais", color="Genre", 
+                  labels={"Year": "Ano de Publicação", "Genre": "Gênero", "Vendas Globais": "Vendas Totais (em milhões)"},
                   title="Evolução das Vendas nos Anos por Gênero")
     st.plotly_chart(fig)
 
     #opção 2 do mesmo gráfico, mas em 3D interativo
     # --- Preparar os dados ---
-    tendencias = df_filtered.groupby(["Year", "Genre"])["Outros Países"].sum().reset_index()
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Vendas Globais"].sum().reset_index()
 
     # Criar tabela cruzada (anos x gêneros)
-    pivot = tendencias.pivot(index="Genre", columns="Year", values="Outros Países").fillna(0)
+    pivot = tendencias.pivot(index="Genre", columns="Year", values="Vendas Globais").fillna(0)
 
     # Transformar em arrays
     X, Y = np.meshgrid(pivot.columns, range(len(pivot.index)))
@@ -398,7 +396,7 @@ elif option.startswith("2"):
     regions = ["América do Norte", "Europa", "Japão", "Other_Sales"]
     region_totals = df_filtered[regions].sum()
 
-    genre_sales = df_filtered.groupby("Genre")["Outros Países"].sum().sort_values(ascending=False)
+    genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
     genre_region = df_filtered.groupby("Genre")[regions].sum()
     genre_region = genre_region.loc[genre_sales.index]
     
@@ -427,13 +425,13 @@ elif option.startswith("8"):
     #
     #2ª opção do mesmo gráfico, mas em 3D interativo
     # --- Preparar os dados ---
-    tendencias = df_filtered.groupby(["Year", "Genre"])["Outros Países"].sum().reset_index()
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Vendas Globais"].sum().reset_index()
 
     anos = sorted(tendencias["Year"].dropna().unique())
     generos = sorted(tendencias["Genre"].dropna().unique())
 
     # Criar tabela cruzada (gêneros x anos)
-    pivot = tendencias.pivot(index="Genre", columns="Year", values="Outros Países").fillna(0)
+    pivot = tendencias.pivot(index="Genre", columns="Year", values="Vendas Globais").fillna(0)
 
     X, Y = np.meshgrid(pivot.columns, range(len(pivot.index)))
     Z = pivot.values
