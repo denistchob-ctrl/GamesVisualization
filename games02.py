@@ -43,7 +43,6 @@ option = st.sidebar.radio(
         "1. Resumo Integrado",
         "2. Tendências Temporais",
         "3. Produção de Jogos por Ano/Gênero",
-        "4. Dados Gerais da Base de Dados",
         "8. teste 3d",
         "9. teste 3d com slider",
         "0. Informações sobre a Base de Dados"
@@ -70,8 +69,14 @@ platforms.sort()
 platforms.insert(0, "Todos")
 selected_platform = st.sidebar.selectbox("Selecione a plataforma:", platforms, index=0)
 
+# Desenvolvedora/Publisher
+publishers = df["Publisher"].dropna().unique().tolist()
+publishers.sort()
+publishers.insert(0, "Todos")
+selected_publisher = st.sidebar.selectbox("Selecione a Desenvolvedora:", publishers, index=0)
+
 # --- Função de filtro combinada ---
-def apply_filters(dataframe, genre, year, platform):
+def apply_filters(dataframe, genre, year, platform, publisher):
     df_filtered = dataframe.copy()
     if genre != "Todos":
         df_filtered = df_filtered[df_filtered["Genre"] == genre]
@@ -79,10 +84,12 @@ def apply_filters(dataframe, genre, year, platform):
         df_filtered = df_filtered[df_filtered["Year"] == year]
     if platform != "Todos":
         df_filtered = df_filtered[df_filtered["Platform"] == platform]
+    if publisher != "Todos":
+        df_filtered = df_filtered[df_filtered["Publisher"] == publisher]
     return df_filtered
 
 # --- Aplicar filtros globais ---
-df_filtered = apply_filters(df, selected_genre, selected_year, selected_platform)
+df_filtered = apply_filters(df, selected_genre, selected_year, selected_platform, selected_publisher   )
 
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
 if cb_LimparDados:
@@ -108,13 +115,63 @@ if option.startswith("0"):
     st.write("https://www.kaggle.com/datasets/gregorut/videogamesales")
     st.write("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
     st.write("Ele é baseado na biblioteca BeautifulSoup usando Python.")
-    st.write("Há 16.598 registros.")
     st.write("Dois registros foram descartados devido a informações incompletas.")
-    st.write("Analisando a base, ela foi extraída em meados de 2016, então dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
-    st.write("Com base na informação acima os dados de 2016 serão desconsiderados.")
+    st.write("Analisando a base, ela foi extraída em meados de 2016.")
+    st.write("Dito isso, os dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
     st.write("")
     st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES")
     st.write("")
+
+    # --- Primeira tabela: Totais ---
+    stats_totals = {
+        "Total de Registros": len(df),
+        "Total de Gêneros": df["Genre"].nunique(),
+        "Total de Consoles": df["Console"].nunique() if "Console" in df.columns else 0,
+        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0
+    }
+    stats_totals_df = pd.DataFrame(list(stats_totals.items()), columns=["Indicador", "Valor"])
+
+    # --- Segunda tabela: Mínimos e Máximos ---
+    stats_min_max = [
+        ("Produção por Ano", df["Year"].min(), df["Year"].max()),
+        ("Vendas América do Norte", df["NA_Sales"].min(), df["NA_Sales"].max()),
+        ("Vendas Europa", df["EU_Sales"].min(), df["EU_Sales"].max()),
+        ("Vendas Japão", df["JP_Sales"].min(), df["JP_Sales"].max()),
+        ("Vendas Outros", df["Other_Sales"].min(), df["Other_Sales"].max()),
+        ("Vendas Globais", df["Global_Sales"].min(), df["Global_Sales"].max())
+    ]
+    stats_min_max_df = pd.DataFrame(stats_min_max, columns=["Indicador", "Mínimo", "Máximo"])
+
+    # --- Exibir lado a lado ---
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("Totais da Base")
+        st.dataframe(stats_totals_df)
+
+    with col2:
+        st.subheader("Mínimos e Máximos")
+        st.dataframe(stats_min_max_df)
+
+    # Calcular nulos e não nulos
+    null_counts = df.isnull().sum()
+    non_null_counts = df.notnull().sum()
+
+    # Organizar em DataFrame
+    null_df = pd.DataFrame({
+        "Coluna": df.columns,
+        "Nulos": null_counts.values,
+        "Não Nulos": non_null_counts.values
+    })
+
+    # Exibir gráfico interativo
+    fig = px.bar(
+        null_df.melt(id_vars="Coluna", value_vars=["Nulos", "Não Nulos"],
+                    var_name="Tipo", value_name="Quantidade"),
+        x="Coluna", y="Quantidade", color="Tipo", barmode="group",
+        title="Valores Nulos e Não Nulos por Coluna"
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 # Dashboard 1 - Visão Geral
 # --- Nova opção: Resumo Integrado ---
@@ -272,59 +329,6 @@ elif option.startswith("3"):
     # "Turbo" → cores vibrantes e contrastantes.
     fig.update_xaxes(side="top")
 
-    st.plotly_chart(fig, use_container_width=True)
-
-elif option.startswith("4"):
-    st.title("Dados Gerais da Base de Dados")
-    # --- Primeira tabela: Totais ---
-    stats_totals = {
-        "Total de Registros": len(df),
-        "Total de Gêneros": df["Genre"].nunique(),
-        "Total de Consoles": df["Console"].nunique() if "Console" in df.columns else 0,
-        "Total de Plataformas": df["Platform"].nunique() if "Platform" in df.columns else 0
-    }
-    stats_totals_df = pd.DataFrame(list(stats_totals.items()), columns=["Indicador", "Valor"])
-
-    # --- Segunda tabela: Mínimos e Máximos ---
-    stats_min_max = [
-        ("Produção por Ano", df["Year"].min(), df["Year"].max()),
-        ("Vendas América do Norte", df["NA_Sales"].min(), df["NA_Sales"].max()),
-        ("Vendas Europa", df["EU_Sales"].min(), df["EU_Sales"].max()),
-        ("Vendas Japão", df["JP_Sales"].min(), df["JP_Sales"].max()),
-        ("Vendas Outros", df["Other_Sales"].min(), df["Other_Sales"].max()),
-        ("Vendas Globais", df["Global_Sales"].min(), df["Global_Sales"].max())
-    ]
-    stats_min_max_df = pd.DataFrame(stats_min_max, columns=["Indicador", "Mínimo", "Máximo"])
-
-    # --- Exibir lado a lado ---
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.subheader("Totais da Base")
-        st.dataframe(stats_totals_df)
-
-    with col2:
-        st.subheader("Mínimos e Máximos")
-        st.dataframe(stats_min_max_df)
-
-    # Calcular nulos e não nulos
-    null_counts = df.isnull().sum()
-    non_null_counts = df.notnull().sum()
-
-    # Organizar em DataFrame
-    null_df = pd.DataFrame({
-        "Coluna": df.columns,
-        "Nulos": null_counts.values,
-        "Não Nulos": non_null_counts.values
-    })
-
-    # Exibir gráfico interativo
-    fig = px.bar(
-        null_df.melt(id_vars="Coluna", value_vars=["Nulos", "Não Nulos"],
-                    var_name="Tipo", value_name="Quantidade"),
-        x="Coluna", y="Quantidade", color="Tipo", barmode="group",
-        title="Valores Nulos e Não Nulos por Coluna"
-    )
     st.plotly_chart(fig, use_container_width=True)
 
 # Dashboard 7 - Tendências Temporais
