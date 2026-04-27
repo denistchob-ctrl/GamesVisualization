@@ -106,6 +106,18 @@ if cb_LimparDados:
     )
     df_filtered = df_filtered[df_filtered["Platform"].isin(plataformas_validas)]
     st.sidebar.write("Foram excluídos os consoles cujas vendas não ultrapassaram 100 milhões.")
+    
+    # 1. Excluir linhas com ano nulo
+    df_filtered = df_filtered[df_filtered["Year"].notnull()]
+
+    # 2. Calcular produção anual
+    producao_anual = df_filtered.groupby("Year")["Name"].count()
+
+    # 3. Selecionar apenas anos com >= 100 títulos
+    anos_validos = producao_anual[producao_anual >= 100].index
+
+    # 4. Filtrar o dataframe
+    df_filtered = df_filtered[df_filtered["Year"].isin(anos_validos)]
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
@@ -116,7 +128,7 @@ if option.startswith("0"):
     st.write("O script para extrair os dados está disponível em https://github.com/GregorUT/vgchartzScrape .")
     st.write("Ele é baseado na biblioteca BeautifulSoup usando Python.")
     st.write("Dois registros foram descartados devido a informações incompletas conforme informações do autor.")
-    st.write("Analisando a base, ela foi extraída em meados de 2016.")
+    st.write("Analisando a base, ela foi extraída em meados de 2016. Para 2017 há apenas 3 registros e 2020 apenas 1 registro.")
     st.write("Dito isso, os dados com essa data podem estar com informações incompletas tanto quanto à produção de jogos como de vendas.")
     st.write("** DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES **")
     st.write("Os dados abaixo não estão considerando nenhum filtro aplicado, ou seja, são os totais da base completa.")
@@ -133,7 +145,7 @@ if option.startswith("0"):
 
     # --- Segunda tabela: Mínimos e Máximos ---
     stats_min_max = [
-        ("Produção por Ano", df["Year"].min(), df["Year"].max()),
+        ("Limites de Ano", df["Year"].min(), df["Year"].max()),
         ("Vendas América do Norte", df["NA_Sales"].min(), df["NA_Sales"].max()),
         ("Vendas Europa", df["EU_Sales"].min(), df["EU_Sales"].max()),
         ("Vendas Japão", df["JP_Sales"].min(), df["JP_Sales"].max()),
