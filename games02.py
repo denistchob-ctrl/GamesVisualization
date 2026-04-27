@@ -85,16 +85,21 @@ def apply_filters(dataframe, genre, year, platform):
 df_filtered = apply_filters(df, selected_genre, selected_year, selected_platform)
 
 cb_LimparDados = st.sidebar.checkbox('Resumir os Dados')
-if not cb_LimparDados:
-    st.sidebar.write("")
-else:
-    st.sidebar.write("Foram excluidas as informações redundantes da base de dados.")
-    #excluir os registros que tenham algum campo nulo
+if cb_LimparDados:
+    st.sidebar.write("Foram excluídas as informações redundantes da base de dados.")
+    
+    # Excluir registros com campos nulos
     df_filtered = df_filtered.dropna()
-    st.sidebar.write("Foram excluidos os registros que tenham algum campo nulo.")   
-    # Filtrar apenas plataformas com vendas > 100 milhões
-    platform_sales_filtered = platform_sales[platform_sales["Global_Sales"] > 100]
-    st.sidebar.write("Foram excluidos os consoles cujas vendas não ultrapassaram 100 milhões.")   
+    st.sidebar.write("Foram excluídos os registros que tenham algum campo nulo.")   
+    
+    # Filtrar apenas plataformas com vendas globais > 100 milhões
+    plataformas_validas = (
+        df.groupby("Platform")["Global_Sales"].sum()
+        .reset_index()
+        .query("Global_Sales > 100")["Platform"].tolist()
+    )
+    df_filtered = df_filtered[df_filtered["Platform"].isin(plataformas_validas)]
+    st.sidebar.write("Foram excluídos os consoles cujas vendas não ultrapassaram 100 milhões.")
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
