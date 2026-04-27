@@ -27,6 +27,11 @@ df = load_data()
 # Converter Year para inteiro, mantendo NaN se houver
 df = df.replace(["N/A", "Unknown"], np.nan)
 df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
+# Garantir que Global_Sales seja numérico
+df["Global_Sales"] = pd.to_numeric(df["Global_Sales"], errors="coerce")
+
+# Agrupar por plataforma e somar vendas globais
+platform_sales = df.groupby("Platform", as_index=False)["Global_Sales"].sum()
 
 # Menu lateral
 st.sidebar.title("Menu de Dashboards\n Ver valores sua dimensão está correta\nPermitir seleção")
@@ -87,7 +92,9 @@ else:
     #excluir os registros que tenham algum campo nulo
     df_filtered = df_filtered.dropna()
     st.sidebar.write("Foram excluidos os registros que tenham algum campo nulo.")   
-
+    # Filtrar apenas plataformas com vendas > 100 milhões
+    platform_sales_filtered = platform_sales[platform_sales["Global_Sales"] > 100]
+    st.sidebar.write("Foram excluidos os consoles cujas vendas não ultrapassaram 100 milhões.")   
 
 # Opção 0 - Informações sobre a Base de dados
 if option.startswith("0"):
@@ -102,11 +109,7 @@ if option.startswith("0"):
     st.write("Com base na informação acima os dados de 2016 serão desconsiderados.")
     st.write("")
     st.write("DADOS DE VENDAS ESTÃO NA UNIDADE DE MILHÕES")
-    st.write("...")
     st.write("")
-
-    st.write (df_filtered.describe(include="O"))
-    st.write(df.isnull().sum())
 
 # Dashboard 1 - Visão Geral
 elif option.startswith("1"):
