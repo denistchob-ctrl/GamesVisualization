@@ -148,6 +148,7 @@ if option.startswith("0"):
     with col1:
         st.subheader("Totais da Base")
         st.dataframe(stats_totals_df)
+        st.write("**Observação:** O total de jogos multi-plataforma é uma estimativa baseada em registros duplicados no campo 'Name', indicando que um mesmo jogo foi lançado em múltiplas plataformas.")   
 
     with col2:
         st.subheader("Mínimos e Máximos")
