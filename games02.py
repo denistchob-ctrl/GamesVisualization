@@ -393,7 +393,7 @@ elif option.startswith("2"):
     st.plotly_chart(fig, use_container_width=True)
 
     # Agrupar vendas por gênero e região
-    regions = ["América do Norte", "Europa", "Japão", "Other_Sales"]
+    regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
     region_totals = df_filtered[regions].sum()
 
     genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
