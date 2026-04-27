@@ -188,6 +188,9 @@ elif option.startswith("8"):
     #montar uma matriz 3 linhas 5 colunas
     #produção por ano (pegar os 5 anos que mais tiveram produção de games)
     #pegar os 3 generos que mais produziram em todo o periodo
+    # Garantir que Year seja inteiro
+    df["Year"] = pd.to_numeric(df["Year"], errors="coerce").astype("Int64")
+
     # Top 5 anos com maior produção
     top_years = df["Year"].value_counts().nlargest(5).index.tolist()
 
@@ -196,10 +199,12 @@ elif option.startswith("8"):
 
     # Criar tabela cruzada (matriz)
     matrix = df[df["Year"].isin(top_years) & df["Genre"].isin(top_genres)]
-    pivot = matrix.pivot_table(index="Genre", columns="Year", values="Name", aggfunc="count").fillna(0)
-
-    # Garantir ordem dos anos e gêneros
-    pivot = pivot.loc[top_genres, top_years]
+    pivot = matrix.pivot_table(
+        index="Genre", 
+        columns="Year", 
+        values="Name", 
+        aggfunc="count"
+    ).reindex(index=top_genres, columns=top_years, fill_value=0)
 
     # Exibir heatmap
     fig = px.imshow(
