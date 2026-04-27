@@ -36,7 +36,7 @@ df["Global_Sales"] = pd.to_numeric(df["Global_Sales"], errors="coerce")
 platform_sales = df.groupby("Platform", as_index=False)["Global_Sales"].sum()
 
 # Menu lateral
-st.sidebar.title("Menu de Dashboards\n Ver valores sua dimensão está correta\nPermitir seleção")
+st.sidebar.title("Venha explorar os dados de vendas de jogos!")
 option = st.sidebar.radio(
     "Escolha o tema:",
     [
