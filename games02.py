@@ -38,10 +38,7 @@ st.sidebar.title("Menu de Dashboards\n Ver valores sua dimensão está correta\n
 option = st.sidebar.radio(
     "Escolha o tema:",
     [
-        "1. Visão Geral das Vendas Globais",
-        "2. Top Jogos e Franquias",
-        "3. Distribuição por Plataformas",
-        "4. Análise por Gênero",
+        "1. Resumo Integrado",
         "5. Editoras e Desenvolvedoras",
         "6. Vendas por Região",
         "7. Tendências Temporais",
@@ -117,40 +114,46 @@ if option.startswith("0"):
     st.write("")
 
 # Dashboard 1 - Visão Geral
-elif option.startswith("1"):
-    #st.title("Vendas Globais de Jogos de Video Games")
+# --- Nova opção: Resumo Integrado ---
+if option.startswith("1"):
+    st.title("Resumo Integrado: Vendas, Jogos, Plataformas e Gêneros")
+
+    # Gráfico 1 - Vendas Globais por Ano
     vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
-    fig = px.line(vendas_por_ano, x="Year", y="Global_Sales"
-                , labels={"Year": "Ano de Publicação do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}
-                , title="Vendas Globais de Jogos de Video Games por Ano")
-    st.plotly_chart(fig)
+    fig1 = px.line(vendas_por_ano, x="Year", y="Global_Sales",
+                   labels={"Year": "Ano", "Global_Sales": "Vendas Totais (em milhões)"},
+                   title="Vendas Globais por Ano")
 
-# Dashboard 2 - Top Jogos
-elif option.startswith("2"):
-    #st.title("Top Jogos e Franquias")
+    # Gráfico 2 - Top 10 Jogos
     top_jogos = df_filtered.groupby("Name")["Global_Sales"].sum().nlargest(10).reset_index()
-    fig = px.bar(top_jogos, x="Name", y="Global_Sales"
-               , labels={"Name": "Título do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}
-               , title="Top 10 Jogos Mais Vendidos")
-    st.plotly_chart(fig)
+    fig2 = px.bar(top_jogos, x="Name", y="Global_Sales",
+                  labels={"Name": "Título", "Global_Sales": "Vendas Totais (em milhões)"},
+                  title="Top 10 Jogos Mais Vendidos")
 
-# Dashboard 3 - Plataformas
-elif option.startswith("3"):
-    #st.title("Distribuição por Plataformas")
+    # Gráfico 3 - Distribuição por Plataformas
     plataformas = df_filtered.groupby("Platform")["Global_Sales"].sum().reset_index()
-    fig = px.bar(plataformas, x="Platform", y="Global_Sales"
-               , labels={"Platform": "Plataforma do Jogo", "Global_Sales": "Vendas Totais (em milhões)"}
-               , title="Distribuição de Vendas por Plataforma")
-    st.plotly_chart(fig)
+    fig3 = px.bar(plataformas, x="Platform", y="Global_Sales",
+                  labels={"Platform": "Plataforma", "Global_Sales": "Vendas Totais (em milhões)"},
+                  title="Distribuição de Vendas por Plataforma")
 
-# Dashboard 4 - Gênero
-elif option.startswith("4"):
-    #st.title("Análise por Gênero")
+    # Gráfico 4 - Distribuição por Gênero
     generos = df_filtered.groupby("Genre")["Global_Sales"].sum().reset_index()
-    fig = px.pie(generos, names="Genre", values="Global_Sales"
-               , labels={"Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"}
-               , title="Distribuição de Vendas por Gênero")
-    st.plotly_chart(fig)
+    fig4 = px.pie(generos, names="Genre", values="Global_Sales",
+                  labels={"Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
+                  title="Distribuição de Vendas por Gênero")
+
+    # Layout organizado: 2 colunas em cima, 2 embaixo
+    col1, col2 = st.columns(2)
+    with col1:
+        st.plotly_chart(fig1, use_container_width=True)
+    with col2:
+        st.plotly_chart(fig2, use_container_width=True)
+
+    col3, col4 = st.columns(2)
+    with col3:
+        st.plotly_chart(fig3, use_container_width=True)
+    with col4:
+        st.plotly_chart(fig4, use_container_width=True)
 
 # Dashboard 5 - Editoras
 elif option.startswith("5"):
