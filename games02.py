@@ -226,29 +226,7 @@ elif option.startswith("8"):
 
 elif option.startswith("9"):
     st.title("Dados Gerais da Base de Dados")
-    # Calcular nulos e não nulos
-    null_counts = df.isnull().sum()
-    non_null_counts = df.notnull().sum()
-
-    # Organizar em DataFrame
-    null_df = pd.DataFrame({
-        "Coluna": df.columns,
-        "Nulos": null_counts.values,
-        "Não Nulos": non_null_counts.values
-    })
-
-    # Exibir gráfico interativo
-    fig = px.bar(
-        null_df.melt(id_vars="Coluna", value_vars=["Nulos", "Não Nulos"],
-                    var_name="Tipo", value_name="Quantidade"),
-        x="Coluna", y="Quantidade", color="Tipo", barmode="group",
-        title="Valores Nulos e Não Nulos por Coluna"
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-    st.title("Resumo da Base de Dados")
-
-    # --- Primeira tabela: Totais ---
+   # --- Primeira tabela: Totais ---
     stats_totals = {
         "Total de Registros": len(df),
         "Total de Gêneros": df["Genre"].nunique(),
@@ -278,3 +256,23 @@ elif option.startswith("9"):
     with col2:
         st.subheader("Mínimos e Máximos")
         st.dataframe(stats_min_max_df)
+
+    # Calcular nulos e não nulos
+    null_counts = df.isnull().sum()
+    non_null_counts = df.notnull().sum()
+
+    # Organizar em DataFrame
+    null_df = pd.DataFrame({
+        "Coluna": df.columns,
+        "Nulos": null_counts.values,
+        "Não Nulos": non_null_counts.values
+    })
+
+    # Exibir gráfico interativo
+    fig = px.bar(
+        null_df.melt(id_vars="Coluna", value_vars=["Nulos", "Não Nulos"],
+                    var_name="Tipo", value_name="Quantidade"),
+        x="Coluna", y="Quantidade", color="Tipo", barmode="group",
+        title="Valores Nulos e Não Nulos por Coluna"
+    )
+    st.plotly_chart(fig, use_container_width=True)
