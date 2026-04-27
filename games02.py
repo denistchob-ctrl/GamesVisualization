@@ -185,8 +185,8 @@ if option.startswith("1"):
 elif option.startswith("9"):
     st.title("Dashboard de Teste")
     st.write("Este é um dashboard de teste para verificar a funcionalidade do menu lateral e dos filtros.")
-    np.random.seed(0)
 
+    np.random.seed(0)
     n_bins = 10
     x = np.random.randn(1000, 3)
 
@@ -210,7 +210,7 @@ elif option.startswith("9"):
     ax3.set_title('different sample sizes')
 
     fig.tight_layout()
-    plt.show()
+    st.plotly_chart(fig, use_container_width=True)
 
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
