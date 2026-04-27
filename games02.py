@@ -186,30 +186,45 @@ elif option.startswith("9"):
     st.title("Dashboard de Teste")
     st.write("Este é um dashboard de teste para verificar a funcionalidade do menu lateral e dos filtros.")
 
-    np.random.seed(0)
-    n_bins = 10
-    x = np.random.randn(1000, 3)
+    # --- Preparar os dados ---
+    vendas_por_ano = df_filtered.groupby("Year")["Global_Sales"].sum().reset_index()
+    top_jogos = df_filtered.groupby("Name")["Global_Sales"].sum().nlargest(10).reset_index()
+    plataformas = df_filtered.groupby("Platform")["Global_Sales"].sum().reset_index()
+    generos = df_filtered.groupby("Genre")["Global_Sales"].sum().reset_index()
 
-    fig, axes = plt.subplots(nrows=2, ncols=2)
-    ax0, ax1, ax2, ax3 = axes.flatten()
+    # --- Criar subplots 2x2 ---
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    ax1, ax2, ax3, ax4 = axes.flatten()
 
-    colors = ['red', 'tan', 'lime']
-    ax0.hist(x, n_bins, density=1, histtype='bar', color=colors, label=colors)
-    ax0.legend(prop={'size': 10})
-    ax0.set_title('bars with legend')
+    # Gráfico 1 - Vendas Globais por Ano (linha azul)
+    ax1.plot(vendas_por_ano["Year"], vendas_por_ano["Global_Sales"], marker="o", color="blue")
+    ax1.set_title("Vendas Globais por Ano")
+    ax1.set_xlabel("Ano")
+    ax1.set_ylabel("Vendas Totais (em milhões)")
 
-    ax1.hist(x, n_bins, density=1, histtype='bar', stacked=True)
-    ax1.set_title('stacked bar')
+    # Gráfico 2 - Top 10 Jogos (barras vermelhas)
+    ax2.bar(top_jogos["Name"], top_jogos["Global_Sales"], color="red")
+    ax2.set_title("Top 10 Jogos Mais Vendidos")
+    ax2.set_xlabel("Título do Jogo")
+    ax2.set_ylabel("Vendas Totais (em milhões)")
+    ax2.tick_params(axis="x", rotation=45)
 
-    ax2.hist(x, n_bins, histtype='step', stacked=True, fill=False)
-    ax2.set_title('stack step (unfilled)')
+    # Gráfico 3 - Distribuição por Plataformas (barras verdes)
+    ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color="green")
+    ax3.set_title("Vendas por Plataforma")
+    ax3.set_xlabel("Plataforma")
+    ax3.set_ylabel("Vendas Totais (em milhões)")
+    ax3.tick_params(axis="x", rotation=45)
 
-    # Make a multiple-histogram of data-sets with different length.
-    x_multi = [np.random.randn(n) for n in [10000, 5000, 2000]]
-    ax3.hist(x_multi, n_bins, density=1, histtype='bar')
-    ax3.set_title('different sample sizes')
+    # Gráfico 4 - Distribuição por Gênero (pizza colorida)
+    cores = plt.cm.tab20.colors  # paleta de cores variadas
+    ax4.pie(generos["Global_Sales"], labels=generos["Genre"], autopct="%1.1f%%", startangle=90, colors=cores)
+    ax4.set_title("Vendas por Gênero")
 
+    # Ajustar layout
     fig.tight_layout()
+
+    # Exibir no Streamlit
     st.pyplot(fig)
 
 # Dashboard 7 - Tendências Temporais
