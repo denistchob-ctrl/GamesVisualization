@@ -4,6 +4,7 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D  # necessário para 3D
 
 #https://gamesvisualization-v77moozvxrjfgzckeg5rp3.streamlit.app/
 #dados em milhões (vendas)
@@ -236,6 +237,41 @@ elif option.startswith("2"):
                   labels={"Year": "Ano de Publicação", "Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
                   title="Evolução das Vendas nos Anos por Gênero")
     st.plotly_chart(fig)
+
+    # --- Preparar os dados ---
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
+
+    # Mapear anos e gêneros para índices numéricos (necessário para 3D)
+    anos = tendencias["Year"].unique()
+    generos = tendencias["Genre"].unique()
+
+    ano_map = {ano: i for i, ano in enumerate(anos)}
+    genero_map = {gen: i for i, gen in enumerate(generos)}
+
+    x = tendencias["Year"].map(ano_map).values
+    y = tendencias["Genre"].map(genero_map).values
+    z = np.zeros_like(x)  # base das barras
+    dx = np.ones_like(x) * 0.5
+    dy = np.ones_like(y) * 0.5
+    dz = tendencias["Global_Sales"].values  # altura das barras
+
+    # --- Criar gráfico 3D ---
+    fig = plt.figure(figsize=(12,8))
+    ax = fig.add_subplot(111, projection="3d")
+
+    ax.bar3d(x, y, z, dx, dy, dz, shade=True)
+
+    # Ajustar ticks para mostrar nomes reais
+    ax.set_xticks(list(ano_map.values()))
+    ax.set_xticklabels(list(ano_map.keys()), rotation=45, ha="right")
+
+    ax.set_yticks(list(genero_map.values()))
+    ax.set_yticklabels(list(genero_map.keys()))
+
+    ax.set_zlabel("Vendas Totais (em milhões)")
+    ax.set_title("Evolução das Vendas por Ano e Gênero")
+
+    st.pyplot(fig)
 
 elif option.startswith("3"):
     st.title("Matriz de Produção de Jogos")
