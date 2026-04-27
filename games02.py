@@ -228,45 +228,6 @@ elif option.startswith("1"):
     #fig.tight_layout()
     st.pyplot(fig)
 
-# Dashboard 7 - Tendências Temporais
-elif option.startswith("2"):
-    #st.title("Tendências Temporais")
-    # Exemplo: evolução de gêneros ao longo dos anos
-
-    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
-    fig = px.line(tendencias, x="Year", y="Global_Sales", color="Genre", 
-                  labels={"Year": "Ano de Publicação", "Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
-                  title="Evolução das Vendas nos Anos por Gênero")
-    st.plotly_chart(fig)
-
-    #opção 2 do mesmo gráfico, mas em 3D interativo
-    # --- Preparar os dados ---
-    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
-
-    # Criar tabela cruzada (anos x gêneros)
-    pivot = tendencias.pivot(index="Genre", columns="Year", values="Global_Sales").fillna(0)
-
-    # Transformar em arrays
-    X, Y = np.meshgrid(pivot.columns, range(len(pivot.index)))
-    Z = pivot.values
-
-    # --- Criar gráfico 3D interativo ---
-    fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y, colorscale="Viridis")])
-
-    # Ajustar eixos
-    fig.update_layout(
-        title="Tendências Temporais",
-        scene=dict(
-            xaxis=dict(title="Ano", tickvals=list(pivot.columns), ticktext=list(pivot.columns)),
-            yaxis=dict(title="Gênero", tickvals=list(range(len(pivot.index))), ticktext=list(pivot.index)),
-            zaxis=dict(title="Vendas Totais (em milhões)")
-        ),
-        autosize=True,
-        margin=dict(l=65, r=50, b=65, t=90)
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
 elif option.startswith("3"):
     st.title("Matriz de Produção de Jogos")
     st.subheader("Análise dos 5 anos com maior produção")
@@ -363,3 +324,127 @@ elif option.startswith("4"):
         title="Valores Nulos e Não Nulos por Coluna"
     )
     st.plotly_chart(fig, use_container_width=True)
+
+# Dashboard 7 - Tendências Temporais
+elif option.startswith("2"):
+    #st.title("Tendências Temporais")
+    # Exemplo: evolução de gêneros ao longo dos anos
+
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
+    fig = px.line(tendencias, x="Year", y="Global_Sales", color="Genre", 
+                  labels={"Year": "Ano de Publicação", "Genre": "Gênero", "Global_Sales": "Vendas Totais (em milhões)"},
+                  title="Evolução das Vendas nos Anos por Gênero")
+    st.plotly_chart(fig)
+
+    #opção 2 do mesmo gráfico, mas em 3D interativo
+    # --- Preparar os dados ---
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
+
+    # Criar tabela cruzada (anos x gêneros)
+    pivot = tendencias.pivot(index="Genre", columns="Year", values="Global_Sales").fillna(0)
+
+    # Transformar em arrays
+    X, Y = np.meshgrid(pivot.columns, range(len(pivot.index)))
+    Z = pivot.values
+
+    # --- Criar gráfico 3D interativo ---
+    fig = go.Figure(data=[go.Surface(z=Z, x=X, y=Y, colorscale="Viridis")])
+
+    # Ajustar eixos
+    fig.update_layout(
+        title="Tendências Temporais",
+        scene=dict(
+            xaxis=dict(title="Ano", tickvals=list(pivot.columns), ticktext=list(pivot.columns)),
+            yaxis=dict(title="Gênero", tickvals=list(range(len(pivot.index))), ticktext=list(pivot.index)),
+            zaxis=dict(title="Vendas Totais (em milhões)")
+        ),
+        autosize=True,
+        margin=dict(l=65, r=50, b=65, t=90)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    #
+    #
+    #
+    #2ª opção do mesmo gráfico, mas em 3D interativo
+    # --- Preparar os dados ---
+    tendencias = df_filtered.groupby(["Year", "Genre"])["Global_Sales"].sum().reset_index()
+
+    anos = sorted(tendencias["Year"].dropna().unique())
+    generos = sorted(tendencias["Genre"].dropna().unique())
+
+    # Criar tabela cruzada (gêneros x anos)
+    pivot = tendencias.pivot(index="Genre", columns="Year", values="Global_Sales").fillna(0)
+
+    # --- Criar frames para cada ano ---
+    frames = []
+    for ano in anos:
+        z = pivot[ano].values.reshape(len(generos), 1)  # vendas do ano
+        x = [ano] * len(generos)
+        y = generos
+        frames.append(go.Frame(
+            data=[go.Bar3d(x=x, y=y, z=z.flatten(), opacity=0.8)],
+            name=str(ano)
+        ))
+
+    # --- Gráfico inicial (primeiro ano) ---
+    ano_inicial = anos[0]
+    z_inicial = pivot[ano_inicial].values.reshape(len(generos), 1)
+    x_inicial = [ano_inicial] * len(generos)
+    y_inicial = generos
+
+    fig = go.Figure(
+        data=[go.Bar3d(x=x_inicial, y=y_inicial, z=z_inicial.flatten(), opacity=0.8)],
+        frames=frames
+    )
+
+    # --- Configurar slider ---
+    fig.update_layout(
+        title="Tendências Temporais",
+        scene=dict(
+            xaxis=dict(title="Ano"),
+            yaxis=dict(title="Gênero"),
+            zaxis=dict(title="Vendas Totais (em milhões)")
+        ),
+        updatemenus=[{
+            "buttons": [
+                {"args": [None, {"frame": {"duration": 500, "redraw": True},
+                                "fromcurrent": True}],
+                "label": "Play",
+                "method": "animate"},
+                {"args": [[None], {"frame": {"duration": 0, "redraw": True},
+                                "mode": "immediate",
+                                "transition": {"duration": 0}}],
+                "label": "Pause",
+                "method": "animate"}
+            ],
+            "direction": "left",
+            "pad": {"r": 10, "t": 87},
+            "showactive": False,
+            "type": "buttons",
+            "x": 0.1,
+            "xanchor": "right",
+            "y": 0,
+            "yanchor": "top"
+        }],
+        sliders=[{
+            "steps": [
+                {"args": [[str(ano)], {"frame": {"duration": 300, "redraw": True},
+                                    "mode": "immediate"}],
+                "label": str(ano),
+                "method": "animate"} for ano in anos
+            ],
+            "active": 0,
+            "x": 0.1,
+            "y": -0.1,
+            "len": 0.9
+        }]
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    #
+    #
+    #
+    #3ª opção do mesmo gráfico, mas em 3D interativo
