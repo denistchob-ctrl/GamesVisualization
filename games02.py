@@ -200,20 +200,20 @@ elif option.startswith("1"):
     # Gráfico 1 - Vendas Globais por Ano (linha azul)
     ax1.plot(vendas_por_ano["Year"], vendas_por_ano["Global_Sales"], marker="o", color="blue")
     ax1.set_title("Vendas Globais por Ano")
-    ax1.set_xlabel("Ano")
+    ax1.set_xlabel("")
     ax1.set_ylabel("Vendas Totais (em milhões)")
 
     # Gráfico 2 - Top 10 Jogos (barras vermelhas)
     ax4.bar(top_jogos["Name"], top_jogos["Global_Sales"], color="red")
     ax4.set_title("Top 10 Jogos Mais Vendidos")
-    ax4.set_xlabel("Título do Jogo")
+    ax4.set_xlabel("")
     ax4.set_ylabel("Vendas Totais (em milhões)")
     ax4.tick_params(axis="x", rotation=45)
 
     # Gráfico 3 - Distribuição por Plataformas (barras verdes)
     ax3.bar(plataformas["Platform"], plataformas["Global_Sales"], color="green")
     ax3.set_title("Vendas por Plataforma")
-    ax3.set_xlabel("Plataforma")
+    ax3.set_xlabel("")
     ax3.set_ylabel("Vendas Totais (em milhões)")
     ax3.tick_params(axis="x", rotation=45)
 
