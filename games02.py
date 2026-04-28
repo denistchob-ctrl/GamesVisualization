@@ -263,7 +263,7 @@ if option.startswith("1"):
 
     # Quarta linha: gráfico ocupando toda a largura
     # Agrupar vendas por desenvolvedora
-    publisher_sales = (df.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20))
+    publisher_sales = (df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20))
     fig, ax = plt.subplots(figsize=(12,6))
     # Gráfico horizontal (invertendo ordem para mostrar maior no topo)
     ax.barh(publisher_sales.index[::-1], publisher_sales.values[::-1])
