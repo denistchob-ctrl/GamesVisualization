@@ -229,7 +229,7 @@ if option.startswith("1"):
         ax.bar(plataformas["Platform"], plataformas["Vendas Globais"], color=cores_auto)
         ax.set_title("Vendas por Plataforma")
         ax.set_ylabel("Vendas Totais (em milhões)")
-        ax.tick_params(axis="x", rotation=45)
+        ax.tick_params(axis="x", rotation=90)
         st.pyplot(fig)
 
     with col4:
