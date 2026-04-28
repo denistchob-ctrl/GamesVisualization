@@ -240,7 +240,7 @@ if option.startswith("1"):
         ax.bar(top_jogos["Name_short"] , top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
         ax.set_title("Top 10 Jogos Mais Vendidos")
         ax.set_ylabel("Vendas Totais (em milhões)")
-        ax.tick_params(axis="x", rotation=45)
+        ax.tick_params(axis="x", rotation=90)
         st.pyplot(fig)
         
 
