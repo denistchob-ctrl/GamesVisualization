@@ -235,11 +235,12 @@ if option.startswith("1"):
     with col4:
         fig, ax = plt.subplots(figsize=(6,4))
         cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
-        ax.bar(top_jogos["Name"], top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
+        ax.bar(top_jogos["Name"].str.lstrip(15) , top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
         ax.set_title("Top 10 Jogos Mais Vendidos")
         ax.set_ylabel("Vendas Totais (em milhões)")
         ax.tick_params(axis="x", rotation=45)
         st.pyplot(fig)
+        
 
     # Terceira linha: gráfico ocupando toda a largura
     #st.markdown("Vendas por Gênero/Região")
