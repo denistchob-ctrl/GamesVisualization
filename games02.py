@@ -199,7 +199,7 @@ if option.startswith("1"):
 
     # --- Preparar os dados ---
     vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
-    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(11).reset_index()
+    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
     plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
     generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
     st.write(top_jogos)
@@ -236,7 +236,7 @@ if option.startswith("1"):
     with col4:
         fig, ax = plt.subplots(figsize=(6,4))
         cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
-        top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 15)
+        top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 20)
         ax.bar(top_jogos["Name_short"] , top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
         ax.set_title("Top 10 Jogos Mais Vendidos")
         ax.set_ylabel("Vendas Totais (em milhões)")
