@@ -370,7 +370,7 @@ elif option.startswith("2"):
 
     # Ajustar eixos
     fig.update_layout(
-        title="Tendências Temporais",
+        title="Evolução das Vendas nos Anos por Gênero - Versão 3D",
         scene=dict(
             xaxis=dict(title="Ano", tickvals=list(pivot.columns), ticktext=list(pivot.columns)),
             yaxis=dict(title="Gênero", tickvals=list(range(len(pivot.index))), ticktext=list(pivot.index)),
