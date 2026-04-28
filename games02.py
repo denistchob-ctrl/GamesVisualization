@@ -379,7 +379,7 @@ elif option.startswith("2"):
         autosize=True,
         margin=dict(l=50, r=50, b=50, t=90),
         width=1000,   # largura maior
-        height=700    # altura maior
+        height=1000   # altura maior
     )
 
     st.plotly_chart(fig, use_container_width=True)
