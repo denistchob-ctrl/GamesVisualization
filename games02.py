@@ -236,7 +236,7 @@ if option.startswith("1"):
     with col4:
         fig, ax = plt.subplots(figsize=(6,4))
         cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
-        top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 20)
+        top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 30)
         ax.bar(top_jogos["Name_short"] , top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
         ax.set_title("Top 10 Jogos Mais Vendidos")
         ax.set_ylabel("Vendas Totais (em milhões)")
