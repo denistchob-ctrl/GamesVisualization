@@ -69,25 +69,25 @@ option = st.sidebar.radio(
 genres = df["Genre"].dropna().unique().tolist()
 genres.sort()
 genres.insert(0, "Todos")
-selected_genre = st.sidebar.multiselect("Selecione o gênero:", genres, index=0)
+selected_genre = st.sidebar.selectbox("Selecione o gênero:", genres, index=0)
 
 # Ano
 years = df["Year"].dropna().unique().tolist()
 years.sort()
 years.insert(0, "Todos")
-selected_year = st.sidebar.multiselect("Selecione o ano de lançamento:", years, index=0)
+selected_year = st.sidebar.selectbox("Selecione o ano de lançamento:", years, index=0)
 
 # Plataforma
 platforms = df["Platform"].dropna().unique().tolist()
 platforms.sort()
 platforms.insert(0, "Todos")
-selected_platform = st.sidebar.multiselect("Selecione a plataforma:", platforms, index=0)
+selected_platform = st.sidebar.selectbox("Selecione a plataforma:", platforms, index=0)
 
 # Desenvolvedora/Publisher
 publishers = df["Publisher"].dropna().unique().tolist()
 publishers.sort()
 publishers.insert(0, "Todos")
-selected_publisher = st.sidebar.multiselect("Selecione a Desenvolvedora:", publishers, index=0)
+selected_publisher = st.sidebar.selectbox("Selecione a Desenvolvedora:", publishers, index=0)
 
 # --- Função de filtro combinada ---
 def apply_filters(dataframe, genre, year, platform, publisher):
