@@ -377,7 +377,9 @@ elif option.startswith("2"):
             zaxis=dict(title="Vendas Totais (em milhões)")
         ),
         autosize=True,
-        margin=dict(l=65, r=50, b=65, t=90)
+        margin=dict(l=50, r=50, b=50, t=90),
+        width=1000,   # largura maior
+        height=700    # altura maior
     )
 
     st.plotly_chart(fig, use_container_width=True)
