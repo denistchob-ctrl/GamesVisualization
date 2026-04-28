@@ -208,10 +208,30 @@ if option.startswith("1"):
 
     with col1:
         fig, ax = plt.subplots(figsize=(6,4))
-        ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue")
+        
+        # Gráfico original
+        ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue", label="Vendas")
+
+        # Calcular linha de tendência (regressão linear)
+        x = vendas_por_ano["Year"]
+        y = vendas_por_ano["Vendas Globais"]
+        coef = np.polyfit(x, y, 1)  # grau 1 = linha reta
+        tendencia = np.poly1d(coef)
+
+        # Plotar linha de tendência
+        ax.plot(x, tendencia(x), color="red", linestyle="--", label="Tendência")
+
         ax.set_title("Vendas Globais por Ano")
         ax.set_ylabel("Vendas Totais (em milhões)")
+        ax.legend()
+
         st.pyplot(fig)
+    # with col1:
+    #     fig, ax = plt.subplots(figsize=(6,4))
+    #     ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue")
+    #     ax.set_title("Vendas Globais por Ano")
+    #     ax.set_ylabel("Vendas Totais (em milhões)")
+    #     st.pyplot(fig)
 
     with col2:
         fig, ax = plt.subplots(figsize=(6,4))
