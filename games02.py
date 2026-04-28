@@ -195,7 +195,7 @@ if option.startswith("0"):
 # Resumo Integrado
 if option.startswith("1"):
     st.title("Resumo Integrado")
-    st.subheader("Vendas, Jogos, Plataformas e Gêneros")
+    #st.subheader("Vendas, Jogos, Plataformas e Gêneros")
 
     # --- Preparar os dados ---
     vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
