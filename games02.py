@@ -212,7 +212,7 @@ if option.startswith("1"):
         # Gráfico original
         ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue", label="Vendas")
 
-        if years != "Todos":
+        if selected_year != "Todos":
             # Calcular linha de tendência (regressão linear)
             x = vendas_por_ano["Year"]
             y = vendas_por_ano["Vendas Globais"]
