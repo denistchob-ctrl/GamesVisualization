@@ -242,20 +242,17 @@ if option.startswith("1"):
         ax.tick_params(axis="x", rotation=90)
         st.pyplot(fig)
         
-
     # Terceira linha: gráfico ocupando toda a largura
     #st.markdown("Vendas por Gênero/Região")
     regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
     genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
     genre_region = df_filtered.groupby("Genre")[regions].sum()
     genre_region = genre_region.loc[genre_sales.index]
-
     fig, ax = plt.subplots(figsize=(12,6))
     bottom = np.zeros(len(genre_region))
     for region in regions:
         ax.bar(genre_region.index, genre_region[region], bottom=bottom, label=region, color=cm.tab10(regions.index(region)))
         bottom += genre_region[region].values
-
     ax.set_title("Vendas por Gênero/Região")
     ax.set_xlabel("Gênero")
     ax.set_ylabel("Vendas Totais (em milhões)")
@@ -264,6 +261,16 @@ if option.startswith("1"):
     fig.tight_layout()
     st.pyplot(fig)
 
+    # Quarta linha: gráfico ocupando toda a largura
+    # Agrupar vendas por desenvolvedora
+    publisher_sales = (df.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20))
+    fig, ax = plt.subplots(figsize=(12,6))
+    # Gráfico horizontal (invertendo ordem para mostrar maior no topo)
+    ax.barh(publisher_sales.index[::-1], publisher_sales.values[::-1])
+    ax.set_title("Top 20 Desenvolvedoras por Vendas Globais")
+    ax.set_xlabel("Vendas Globais (em milhões)")
+    fig.tight_layout()
+    st.pyplot(fig)
 
 elif option.startswith("3"):
     st.title("Matriz de Produção de Jogos")
