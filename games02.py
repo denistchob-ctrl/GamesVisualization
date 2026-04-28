@@ -202,7 +202,6 @@ if option.startswith("1"):
     top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
     plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
     generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
-    st.write(top_jogos)
 
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
