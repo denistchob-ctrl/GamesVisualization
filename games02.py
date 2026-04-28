@@ -219,14 +219,15 @@ if option.startswith("1"):
         # Gráfico original
         ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue", label="Vendas")
 
-        # Calcular linha de tendência (regressão linear)
-        x = vendas_por_ano["Year"]
-        y = vendas_por_ano["Vendas Globais"]
-        coef = np.polyfit(x, y, 1)  # grau 1 = linha reta
-        tendencia = np.poly1d(coef)
-
-        # Plotar linha de tendência
-        ax.plot(x, tendencia(x), color="red", linestyle="--", label="Tendência")
+        if selected_year == "Todos":
+            # Calcular linha de tendência (regressão linear)
+            x = vendas_por_ano["Year"]
+            y = vendas_por_ano["Vendas Globais"]
+            coef = np.polyfit(x, y, 1)  # grau 1 = linha reta
+            tendencia = np.poly1d(coef)
+    
+            # Plotar linha de tendência
+            ax.plot(x, tendencia(x), color="red", linestyle="--", label="Tendência")
 
         ax.set_title("Vendas Globais por Ano")
         ax.set_ylabel("Vendas Totais (em milhões)")
