@@ -252,7 +252,6 @@ if option.startswith("1"):
         )
         n = len(plataformas)
         palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
-        palette = px.colors.qualitative.Set3  # escolha a paleta
         fig.update_traces(marker_color=palette)
         fig.update_layout(showlegend=False) # Remover legenda
 
