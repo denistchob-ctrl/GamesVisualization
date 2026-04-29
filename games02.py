@@ -209,7 +209,6 @@ if option.startswith("1"):
     top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
     plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
     generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
-    cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
 
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
@@ -244,13 +243,12 @@ if option.startswith("1"):
     col3, col4 = st.columns(2)
 
     with col3:
-        cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(plataformas)))
         fig = px.bar(
             plataformas,
             x="Platform",
             y="Vendas Globais",
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
-            color=cores_auto,
+            color_discrete_sequence=px.colors.qualitative.Set3,  # paleta variada
             title="Vendas por Plataforma"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -262,7 +260,7 @@ if option.startswith("1"):
             x="Name_short",
             y="Vendas Globais",
             labels={"Name_short":"Jogo","Vendas Globais":"Vendas Totais (em milhões)"},
-            color=cores_jogos[:len(top_jogos)],
+            color_discrete_sequence=px.colors.qualitative.Pastel,  # paleta suave
             title="Top 10 Jogos Mais Vendidos"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -298,7 +296,7 @@ if option.startswith("1"):
         y="Publisher",
         orientation="h",
         title="Top 20 Desenvolvedoras por Vendas Globais",
-        color=cores_jogos[:len(publisher_sales)],
+        color_discrete_sequence=px.colors.qualitative.Vivid,
         labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
     )
     st.plotly_chart(fig, use_container_width=True)
