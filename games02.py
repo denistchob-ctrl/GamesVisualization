@@ -306,18 +306,10 @@ if option.startswith("1"):
         category_orders={"Publisher": publisher_sales["Publisher"].tolist()},
         title="Top 20 Desenvolvedoras por Vendas Globais"
     )
-
-    # fig = px.bar(
-    #     publisher_sales,
-    #     x="Vendas Globais",
-    #     y="Publisher",
-    #     orientation="h",
-    #     title="Top 20 Desenvolvedoras por Vendas Globais",
-    #     labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
-    # )
-    n = len(publisher_sales)
-    palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
-    fig.update_traces(marker_color=palette)
+    if selected_publisher == "Todos":
+        n = len(publisher_sales)
+        palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
+        fig.update_traces(marker_color=palette)
     fig.update_layout(
         showlegend=False, # remover a legenda
         height=800  # aumenta a altura para caber todas as labels
