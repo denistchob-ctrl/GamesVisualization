@@ -214,6 +214,95 @@ if option.startswith("1"):
     col1, col2 = st.columns(2)
 
     with col1:
+        fig = px.line(
+            vendas_por_ano,
+            x="Year",
+            y="Vendas Globais",
+            labels={"Year":"Ano de Publicação","Vendas Globais":"Vendas Totais (em milhões)"},
+            title="Vendas Globais por Ano"
+        )
+        # Adicionar linha de tendência se "Todos"
+        if selected_year == "Todos":
+            x = vendas_por_ano["Year"]
+            y = vendas_por_ano["Vendas Globais"]
+            coef = np.polyfit(x, y, 1)
+            tendencia = np.poly1d(coef)
+            fig.add_scatter(x=x, y=tendencia(x), mode="lines", name="Tendência", line=dict(dash="dash", color="red"))
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col2:
+        fig = px.pie(
+            generos,
+            names="Genre",
+            values="Vendas Globais",
+            title="Vendas por Gênero"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    # Segunda linha: 2 gráficos lado a lado
+    col3, col4 = st.columns(2)
+
+    with col3:
+        fig = px.bar(
+            plataformas,
+            x="Platform",
+            y="Vendas Globais",
+            labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
+            title="Vendas por Plataforma"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col4:
+        top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 30)
+        fig = px.bar(
+            top_jogos,
+            x="Name_short",
+            y="Vendas Globais",
+            labels={"Name_short":"Jogo","Vendas Globais":"Vendas Totais (em milhões)"},
+            title="Top 10 Jogos Mais Vendidos"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    # Terceira linha: gráfico ocupando toda a largura
+    regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
+    genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
+    genre_region = df_filtered.groupby("Genre")[regions].sum()
+    genre_region = genre_region.loc[genre_sales.index].reset_index()
+
+    fig = px.bar(
+        genre_region,
+        x="Genre",
+        y=regions,
+        title="Vendas por Gênero/Região",
+        labels={"Genre":"Gênero","value":"Vendas Totais (em milhões)"},
+        barmode="stack"
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Quarta linha: gráfico ocupando toda a largura
+    publisher_sales = (
+        df_filtered.groupby("Publisher")["Vendas Globais"]
+        .sum()
+        .sort_values(ascending=False)
+        .head(20)
+        .reset_index()
+    )
+
+    fig = px.bar(
+        publisher_sales,
+        x="Vendas Globais",
+        y="Publisher",
+        orientation="h",
+        title="Top 20 Desenvolvedoras por Vendas Globais",
+        labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+elif option.startswith("1 - versão original"):
+    # Primeira linha: 2 gráficos lado a lado
+    col1, col2 = st.columns(2)
+
+    with col1:
         fig, ax = plt.subplots(figsize=(6,4))
         
         # Gráfico original
@@ -342,7 +431,7 @@ elif option.startswith("3"):
     # "Turbo" → cores vibrantes e contrastantes.
     fig.update_xaxes(side="top")
     st.plotly_chart(fig, use_container_width=True)
-    
+
 
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
