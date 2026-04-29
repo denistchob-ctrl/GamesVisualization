@@ -248,9 +248,10 @@ if option.startswith("1"):
             x="Platform",
             y="Vendas Globais",
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
-            title="Vendas por Plataforma",
-            color_discrete_sequence=px.colors.qualitative.Set3  # paleta variada
+            title="Vendas por Plataforma"
         )
+        palette = px.colors.qualitative.Set3  # escolha a paleta
+        fig.update_traces(marker_color=palette[:len(plataformas)])
         fig.update_layout(showlegend=False) # Remover legenda
 
         st.plotly_chart(fig, use_container_width=True)
