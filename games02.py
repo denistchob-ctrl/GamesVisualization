@@ -249,18 +249,20 @@ if option.startswith("1"):
             y="Vendas Globais",
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
             color_discrete_sequence=px.colors.qualitative.Set3,  # paleta variada
+            color="Platform",  # colorir por plataforma para destacar cada uma
             title="Vendas por Plataforma"
         )
         st.plotly_chart(fig, use_container_width=True)
 
     with col4:
-        top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 30)
+        top_jogos["Nome"] = top_jogos["Name"].str.slice(0, 30)
         fig = px.bar(
             top_jogos,
-            x="Name_short",
+            x="Nome",
             y="Vendas Globais",
             labels={"Name_short":"Jogo","Vendas Globais":"Vendas Totais (em milhões)"},
             color_discrete_sequence=px.colors.qualitative.Pastel,  # paleta suave
+            color="Nome",  # colorir por jogo para destacar cada um
             title="Top 10 Jogos Mais Vendidos"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -297,6 +299,7 @@ if option.startswith("1"):
         orientation="h",
         title="Top 20 Desenvolvedoras por Vendas Globais",
         color_discrete_sequence=px.colors.qualitative.Vivid,
+        color="Publisher",
         labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
     )
     st.plotly_chart(fig, use_container_width=True)
