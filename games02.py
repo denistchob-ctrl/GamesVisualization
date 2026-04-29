@@ -213,7 +213,7 @@ if option.startswith("1"):
     genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
     genre_region = df_filtered.groupby("Genre")[regions].sum()
     genre_region = genre_region.loc[genre_sales.index].reset_index()
-    publisher_sales = df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20).reset_index
+    #publisher_sales = df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20).reset_index
 
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
@@ -288,14 +288,31 @@ if option.startswith("1"):
     st.plotly_chart(fig, use_container_width=True)
 
     # Quarta linha: gráfico ocupando toda a largura
+    publisher_sales = (
+        df_filtered.groupby("Publisher")["Vendas Globais"]
+        .sum()
+        .sort_values(ascending=False)
+        .head(20)
+        .reset_index()
+    )
+
     fig = px.bar(
         publisher_sales,
         x="Vendas Globais",
         y="Publisher",
         orientation="h",
-        title="Top 20 Desenvolvedoras por Vendas Globais",
-        labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
+        labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"},
+        title="Top 20 Desenvolvedoras por Vendas Globais"
     )
+
+    # fig = px.bar(
+    #     publisher_sales,
+    #     x="Vendas Globais",
+    #     y="Publisher",
+    #     orientation="h",
+    #     title="Top 20 Desenvolvedoras por Vendas Globais",
+    #     labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
+    # )
     n = len(publisher_sales)
     palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
     fig.update_traces(marker_color=palette)
