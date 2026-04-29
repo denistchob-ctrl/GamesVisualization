@@ -250,8 +250,10 @@ if option.startswith("1"):
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
             title="Vendas por Plataforma"
         )
+        n = len(plataformas)
+        palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
         palette = px.colors.qualitative.Set3  # escolha a paleta
-        fig.update_traces(marker_color=palette[:len(plataformas)])
+        fig.update_traces(marker_color=palette)
         fig.update_layout(showlegend=False) # Remover legenda
 
         st.plotly_chart(fig, use_container_width=True)
