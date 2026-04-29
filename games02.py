@@ -255,7 +255,7 @@ if option.startswith("1"):
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
             title="Vendas por Plataforma"
         )
-        if selected_year == "Todos":
+        if selected_platform == "Todos":
             n = len(plataformas)
             palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
             fig.update_traces(marker_color=palette)
