@@ -250,8 +250,7 @@ if option.startswith("1"):
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
             color_discrete_sequence=px.colors.qualitative.Set3,  # paleta variada
             color="Platform",  # colorir por plataforma para destacar cada uma
-            title="Vendas por Plataforma",
-            legend=False
+            title="Vendas por Plataforma"
         )
         st.plotly_chart(fig, use_container_width=True)
 
