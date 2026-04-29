@@ -302,6 +302,7 @@ if option.startswith("1"):
         y="Publisher",
         orientation="h",
         labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"},
+        category_orders={"Publisher": publisher_sales["Publisher"].tolist()},
         title="Top 20 Desenvolvedoras por Vendas Globais"
     )
 
