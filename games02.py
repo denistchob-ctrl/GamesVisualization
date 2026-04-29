@@ -254,7 +254,6 @@ if option.startswith("1"):
         palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
         fig.update_traces(marker_color=palette)
         fig.update_layout(showlegend=False) # Remover legenda
-
         st.plotly_chart(fig, use_container_width=True)
 
     with col4:
@@ -264,9 +263,12 @@ if option.startswith("1"):
             x="Nome",
             y="Vendas Globais",
             labels={"Name_short":"Jogo","Vendas Globais":"Vendas Totais (em milhões)"},
-            color_discrete_sequence=px.colors.qualitative.Pastel,  # paleta suave
             title="Top 10 Jogos Mais Vendidos"
         )
+        n = len(top_jogos)
+        palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
+        fig.update_traces(marker_color=palette)
+        fig.update_layout(showlegend=False) # Remover legenda
         st.plotly_chart(fig, use_container_width=True)
 
     # Terceira linha: gráfico ocupando toda a largura
@@ -300,10 +302,12 @@ if option.startswith("1"):
         y="Publisher",
         orientation="h",
         title="Top 20 Desenvolvedoras por Vendas Globais",
-        color_discrete_sequence=px.colors.qualitative.Vivid,
-        color="Publisher",
         labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
     )
+    n = len(publisher_sales)
+    palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
+    fig.update_traces(marker_color=palette)
+    fig.update_layout(showlegend=False) # Remover legenda
     st.plotly_chart(fig, use_container_width=True)
 
 elif option.startswith("1 - versão original"):
