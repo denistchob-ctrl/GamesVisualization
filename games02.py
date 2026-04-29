@@ -209,6 +209,11 @@ if option.startswith("1"):
     top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
     plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
     generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
+    regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
+    genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
+    genre_region = df_filtered.groupby("Genre")[regions].sum()
+    genre_region = genre_region.loc[genre_sales.index].reset_index()
+    publisher_sales = (df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20).reset_index)
 
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
@@ -272,11 +277,6 @@ if option.startswith("1"):
         st.plotly_chart(fig, use_container_width=True)
 
     # Terceira linha: gráfico ocupando toda a largura
-    regions = ["América do Norte", "Europa", "Japão", "Outros Países"]
-    genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
-    genre_region = df_filtered.groupby("Genre")[regions].sum()
-    genre_region = genre_region.loc[genre_sales.index].reset_index()
-
     fig = px.bar(
         genre_region,
         x="Genre",
@@ -288,7 +288,6 @@ if option.startswith("1"):
     st.plotly_chart(fig, use_container_width=True)
 
     # Quarta linha: gráfico ocupando toda a largura
-    publisher_sales = (df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20).reset_index)
     fig = px.bar(
         publisher_sales,
         x="Vendas Globais",
@@ -302,14 +301,6 @@ if option.startswith("1"):
     fig.update_traces(marker_color=palette)
     fig.update_layout(showlegend=False) # Remover legenda
     st.plotly_chart(fig, use_container_width=True)
-
-    fig, ax = plt.subplots(figsize=(12,6))
-    # Gráfico horizontal (invertendo ordem para mostrar maior no topo)
-    ax.barh(publisher_sales.index[::-1], publisher_sales.values[::-1], color=cores_jogos[:len(publisher_sales)])
-    ax.set_title("Top 20 Desenvolvedoras por Vendas Globais")
-    ax.set_xlabel("Vendas Globais (em milhões)")
-    fig.tight_layout()
-    st.pyplot(fig)
 
 elif option.startswith("1 - versão original"):
     vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
