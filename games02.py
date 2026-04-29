@@ -247,11 +247,12 @@ if option.startswith("1"):
             plataformas,
             x="Platform",
             y="Vendas Globais",
-            color="Platform",  # cada plataforma terá uma cor diferente
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
             title="Vendas por Plataforma",
             color_discrete_sequence=px.colors.qualitative.Set3  # paleta variada
         )
+        fig.update_layout(showlegend=False) # Remover legenda
+
         st.plotly_chart(fig, use_container_width=True)
 
     with col4:
