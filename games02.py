@@ -209,6 +209,7 @@ if option.startswith("1"):
     top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
     plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
     generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
+    cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
 
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
@@ -243,11 +244,13 @@ if option.startswith("1"):
     col3, col4 = st.columns(2)
 
     with col3:
+        cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(plataformas)))
         fig = px.bar(
             plataformas,
             x="Platform",
             y="Vendas Globais",
             labels={"Platform":"Plataforma","Vendas Globais":"Vendas Totais (em milhões)"},
+            color=cores_auto,
             title="Vendas por Plataforma"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -259,6 +262,7 @@ if option.startswith("1"):
             x="Name_short",
             y="Vendas Globais",
             labels={"Name_short":"Jogo","Vendas Globais":"Vendas Totais (em milhões)"},
+            color=cores_jogos[:len(top_jogos)],
             title="Top 10 Jogos Mais Vendidos"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -294,11 +298,19 @@ if option.startswith("1"):
         y="Publisher",
         orientation="h",
         title="Top 20 Desenvolvedoras por Vendas Globais",
+        color=cores_jogos[:len(publisher_sales)],
         labels={"Publisher":"Desenvolvedora","Vendas Globais":"Vendas Globais (em milhões)"}
     )
     st.plotly_chart(fig, use_container_width=True)
 
 elif option.startswith("1 - versão original"):
+    vendas_por_ano = df_filtered.groupby("Year")["Vendas Globais"].sum().reset_index()
+    top_jogos = df_filtered.groupby("Name")["Vendas Globais"].sum().nlargest(10).reset_index()
+    plataformas = df_filtered.groupby("Platform")["Vendas Globais"].sum().reset_index()
+    generos = df_filtered.groupby("Genre")["Vendas Globais"].sum().reset_index()
+    cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
+    cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(plataformas)))
+
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
 
@@ -323,12 +335,6 @@ elif option.startswith("1 - versão original"):
         ax.legend()
 
         st.pyplot(fig)
-    # with col1:
-    #     fig, ax = plt.subplots(figsize=(6,4))
-    #     ax.plot(vendas_por_ano["Year"], vendas_por_ano["Vendas Globais"], marker="o", color="blue")
-    #     ax.set_title("Vendas Globais por Ano")
-    #     ax.set_ylabel("Vendas Totais (em milhões)")
-    #     st.pyplot(fig)
 
     with col2:
         fig, ax = plt.subplots(figsize=(6,4))
@@ -342,7 +348,6 @@ elif option.startswith("1 - versão original"):
 
     with col3:
         fig, ax = plt.subplots(figsize=(6,4))
-        cores_auto = plt.cm.rainbow(np.linspace(0, 1, len(plataformas)))
         ax.bar(plataformas["Platform"], plataformas["Vendas Globais"], color=cores_auto)
         ax.set_title("Vendas por Plataforma")
         ax.set_ylabel("Vendas Totais (em milhões)")
@@ -351,7 +356,6 @@ elif option.startswith("1 - versão original"):
 
     with col4:
         fig, ax = plt.subplots(figsize=(6,4))
-        cores_jogos = ["red","blue","green","orange","purple","cyan","magenta","yellow","brown","pink"]
         top_jogos["Name_short"] = top_jogos["Name"].str.slice(0, 30)
         ax.bar(top_jogos["Name_short"] , top_jogos["Vendas Globais"], color=cores_jogos[:len(top_jogos)])
         ax.set_title("Top 10 Jogos Mais Vendidos")
