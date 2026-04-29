@@ -213,7 +213,7 @@ if option.startswith("1"):
     genre_sales = df_filtered.groupby("Genre")["Vendas Globais"].sum().sort_values(ascending=False)
     genre_region = df_filtered.groupby("Genre")[regions].sum()
     genre_region = genre_region.loc[genre_sales.index].reset_index()
-    publisher_sales = (df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20).reset_index)
+    publisher_sales = df_filtered.groupby("Publisher")["Vendas Globais"].sum().sort_values(ascending=False).head(20).reset_index
 
     # Primeira linha: 2 gráficos lado a lado
     col1, col2 = st.columns(2)
