@@ -261,7 +261,6 @@ if option.startswith("1"):
             y="Vendas Globais",
             labels={"Name_short":"Jogo","Vendas Globais":"Vendas Totais (em milhões)"},
             color_discrete_sequence=px.colors.qualitative.Pastel,  # paleta suave
-            color="Nome",  # colorir por jogo para destacar cada um
             title="Top 10 Jogos Mais Vendidos"
         )
         st.plotly_chart(fig, use_container_width=True)
