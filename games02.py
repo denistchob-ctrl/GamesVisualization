@@ -342,6 +342,7 @@ elif option.startswith("3"):
     # "Turbo" → cores vibrantes e contrastantes.
     fig.update_xaxes(side="top")
     st.plotly_chart(fig, use_container_width=True)
+    
 
 # Dashboard 7 - Tendências Temporais
 elif option.startswith("2"):
