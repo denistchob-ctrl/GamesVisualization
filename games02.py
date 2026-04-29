@@ -317,7 +317,10 @@ if option.startswith("1"):
     n = len(publisher_sales)
     palette = px.colors.sample_colorscale("Turbo", [i/(n-1) for i in range(n)])
     fig.update_traces(marker_color=palette)
-    fig.update_layout(showlegend=False) # Remover legenda
+    fig.update_layout(
+        showlegend=False, # remover a legenda
+        height=800  # aumenta a altura para caber todas as labels
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 elif option.startswith("1 - versão original"):
