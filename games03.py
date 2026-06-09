@@ -396,7 +396,7 @@ def _delta_html(value: float, total: float, label: str) -> str:
     """Gera o HTML do indicador de variação percentual."""
     if total == 0:
         return f'<span class="kpi-delta-neu">—</span>'
-    pct = (value / total - 1) * 100
+    pct = (value / total) * 100
     if abs(pct) < 0.1:
         return f'<span class="kpi-delta-neu">= {label} total</span>'
     sign  = "▲" if pct > 0 else "▼"
