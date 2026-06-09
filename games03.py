@@ -241,15 +241,27 @@ def build_sidebar_filters(df: pd.DataFrame) -> tuple:
 
     st.sidebar.markdown("### Filtros")
 
-    # ── Botão Limpar Filtros ──────────────────────────────────────────────────
-    # Usa session_state para sinalizar reset; os widgets leem o estado logo
-    # abaixo e voltam aos valores padrão.
-    if st.sidebar.button("🔄 Limpar Filtros", use_container_width=True):
-        for key in ["f_genre", "f_year_start", "f_year_end",
-                    "f_platform", "f_publisher", "f_simplify"]:
-            if key in st.session_state:
-                del st.session_state[key]
-        st.rerun()
+    # ── Botões Limpar / Resumir lado a lado ───────────────────────────────────
+    # Dois botões em colunas dentro da sidebar para economizar espaço vertical.
+    # "Resumir dados" vira botão toggle: ativo quando f_simplify=True no state.
+    btn_col1, btn_col2 = st.sidebar.columns(2)
+
+    with btn_col1:
+        if st.button("🔄 Limpar\nFiltros", use_container_width=True):
+            for key in ["f_genre", "f_year_start", "f_year_end",
+                        "f_platform", "f_publisher", "f_simplify"]:
+                if key in st.session_state:
+                    del st.session_state[key]
+            st.rerun()
+
+    with btn_col2:
+        # Lê o estado atual para dar feedback visual (negrito quando ativo)
+        simplify_active = st.session_state.get("f_simplify", False)
+        label_resumir = "✂️ **Resumir**\n**Dados ✓**" if simplify_active else "✂️ Resumir\nDados"
+        if st.button(label_resumir, use_container_width=True,
+                     help="Remove plataformas < 100 M em vendas, anos < 100 títulos e nulos."):
+            st.session_state["f_simplify"] = not simplify_active
+            st.rerun()
 
     def sorted_unique(series) -> list:
         vals = series.dropna().unique().tolist()
@@ -298,16 +310,8 @@ def build_sidebar_filters(df: pd.DataFrame) -> tuple:
         key="f_publisher",
     )
 
-    # ── Resumir dados ─────────────────────────────────────────────────────────
-    st.sidebar.markdown("---")
-    simplify = st.sidebar.checkbox(
-        "Resumir dados",
-        value=st.session_state.get("f_simplify", False),
-        key="f_simplify",
-        help="Remove plataformas < 100 M em vendas, anos < 100 títulos e nulos.",
-    )
-    if simplify:
-        st.sidebar.caption("✂️ Plataformas < 100 M, anos < 100 títulos e nulos removidos.")
+    # simplify lido do session_state (controlado pelo botão acima)
+    simplify = st.session_state.get("f_simplify", False)
 
     return option, genre, year_start, year_end, platform, publisher, simplify
 
@@ -359,7 +363,8 @@ def active_filters_notice(
         active.append(f"Anos: <b>{year_start} – {year_end}</b>")
     if platform != "Todos":                              active.append(f"Plataforma: <b>{platform}</b>")
     if publisher!= "Todos":                              active.append(f"Desenvolvedora: <b>{publisher}</b>")
-    if simplify:                                         active.append("<b>Dados resumidos</b>")
+    if simplify:
+        active.append("<b>Dados resumidos</b> ✂️ plataformas &lt;100 M · anos &lt;100 títulos · nulos removidos")
     return " · ".join(active) if active else ""
 
 
