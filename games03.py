@@ -248,10 +248,14 @@ def build_sidebar_filters(df: pd.DataFrame) -> tuple:
 
     with btn_col1:
         if st.button("🔄 Limpar\nFiltros", use_container_width=True):
-            for key in ["f_genre", "f_year_start", "f_year_end",
-                        "f_platform", "f_publisher", "f_simplify"]:
-                if key in st.session_state:
-                    del st.session_state[key]
+            year_min_reset, year_max_reset = _year_bounds(df)
+            st.session_state["f_genre"]      = "Todos"
+            st.session_state["f_year_start"] = year_min_reset
+            st.session_state["f_year_end"]   = year_max_reset
+            st.session_state["f_year_range"] = (year_min_reset, year_max_reset)
+            st.session_state["f_platform"]   = "Todos"
+            st.session_state["f_publisher"]  = "Todos"
+            st.session_state["f_simplify"]   = False
             st.rerun()
 
     with btn_col2:
@@ -278,21 +282,21 @@ def build_sidebar_filters(df: pd.DataFrame) -> tuple:
         key="f_genre",
     )
 
-    # ── Intervalo de anos — dois sliders ─────────────────────────────────────
+    # ── Intervalo de anos — slider de faixa (impede De > Até nativamente) ────
     st.sidebar.markdown("**Intervalo de anos**")
-    year_start = st.sidebar.slider(
-        "De", min_value=year_min, max_value=year_max,
-        value=st.session_state.get("f_year_start", year_min),
-        key="f_year_start",
+    all_years = sorted(df["Year"].dropna().unique().tolist())
+    default_start = st.session_state.get("f_year_start", year_min)
+    default_end   = st.session_state.get("f_year_end",   year_max)
+    year_start, year_end = st.sidebar.select_slider(
+        "De / Até",
+        options=all_years,
+        value=(default_start, default_end),
+        key="f_year_range",
+        label_visibility="collapsed",
     )
-    year_end = st.sidebar.slider(
-        "Até", min_value=year_min, max_value=year_max,
-        value=st.session_state.get("f_year_end", year_max),
-        key="f_year_end",
-    )
-    # Garante que start <= end
-    if year_start > year_end:
-        year_start, year_end = year_end, year_start
+    # Sincroniza com as chaves individuais usadas pelo Limpar Filtros
+    st.session_state["f_year_start"] = year_start
+    st.session_state["f_year_end"]   = year_end
 
     # ── Plataforma ────────────────────────────────────────────────────────────
     platforms = ["Todos"] + sorted_unique(df["Platform"])
@@ -454,7 +458,7 @@ def render_kpis(dff: pd.DataFrame, df_total: pd.DataFrame):
         col.markdown(
             f"""
             <div class="kpi-card">
-                <span style="font-size:1.4rem">{k['icon']}</span>
+                <span style="font-size:2.8rem">{k['icon']}</span>
                 <span class="kpi-value">{k['value']}</span>
                 <span class="kpi-label">{k['label']}</span>
                 {k['delta']}
@@ -593,21 +597,26 @@ def page_resumo(dff: pd.DataFrame, df_total: pd.DataFrame, year_start: int, year
         dff.groupby("Publisher")["Vendas Globais"].sum()
         .sort_values(ascending=True).tail(20).reset_index()
     )
+    # Paleta de cores claras e variadas — contrasta bem com o fundo escuro
+    pub_colors = (px.colors.qualitative.Pastel
+                  + px.colors.qualitative.Set2
+                  + px.colors.qualitative.Pastel1)[:len(pub_df)]
     fig = px.bar(
         pub_df, x="Vendas Globais", y="Publisher", orientation="h",
         labels={"Publisher": "", "Vendas Globais": "Vendas Globais (M)"},
         title="Top 20 Desenvolvedoras por Vendas Globais",
-        color="Vendas Globais", color_continuous_scale="Cividis",
+        color="Publisher",
+        color_discrete_sequence=pub_colors,
     )
     fig.update_traces(hovertemplate="<b>%{y}</b><br>%{x:.1f} M<extra></extra>")
-    fig.update_layout(showlegend=False, coloraxis_showscale=False)
+    fig.update_layout(showlegend=False)
     chart_container(fig, "top20_pub", height=560)
 
     # ── Expander de dados ─────────────────────────────────────────────────────
     render_data_expander(dff)
 
 
-def page_tendencias(dff: pd.DataFrame):
+def page_tendencias(dff: pd.DataFrame, genre: str):
     """Página 2 – Tendências Temporais."""
     st.markdown(
         '<div class="dash-header">'
@@ -631,39 +640,41 @@ def page_tendencias(dff: pd.DataFrame):
     )
     chart_container(fig, "tendencia_linha", height=460)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("#### 🧊 Superfície 3D Interativa")
-    st.caption("Arraste para rotacionar · Scroll para zoom · Hover para detalhes")
+    # 3D só faz sentido com múltiplos gêneros — oculta quando um é selecionado
+    if genre == "Todos":
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("#### 🧊 Superfície 3D Interativa")
+        st.caption("Arraste para rotacionar · Scroll para zoom · Hover para detalhes")
 
-    pivot = tendencias.pivot(index="Genre", columns="Year", values="Vendas Globais").fillna(0)
-    X, Y  = np.meshgrid(pivot.columns.astype(float), range(len(pivot.index)))
+        pivot = tendencias.pivot(index="Genre", columns="Year", values="Vendas Globais").fillna(0)
+        X, Y  = np.meshgrid(pivot.columns.astype(float), range(len(pivot.index)))
 
-    fig3d = go.Figure(data=[go.Surface(
-        z=pivot.values, x=X, y=Y,
-        colorscale="Turbo", opacity=0.92,
-        contours=dict(z=dict(show=True, usecolormap=True,
-                             highlightcolor=COLORS["amber"], project_z=True)),
-    )])
-    fig3d.update_layout(
-        title="Vendas por Gênero/Ano — Superfície 3D",
-        scene=dict(
-            xaxis=dict(title="Ano", tickvals=list(pivot.columns[::4]),
-                       gridcolor=COLORS["border"], backgroundcolor=COLORS["surface"]),
-            yaxis=dict(title="Gênero", tickvals=list(range(len(pivot.index))),
-                       ticktext=list(pivot.index),
-                       gridcolor=COLORS["border"], backgroundcolor=COLORS["surface"]),
-            zaxis=dict(title="Vendas (M)",
-                       gridcolor=COLORS["border"], backgroundcolor=COLORS["surface"]),
-            bgcolor=COLORS["surface"],
-        ),
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color=COLORS["text"], family="Inter, sans-serif"),
-        margin=dict(l=0, r=0, t=50, b=0),
-        height=620,
-    )
-    st.markdown('<div class="chart-card">', unsafe_allow_html=True)
-    st.plotly_chart(fig3d, use_container_width=True, key="3d_surface")
-    st.markdown("</div>", unsafe_allow_html=True)
+        fig3d = go.Figure(data=[go.Surface(
+            z=pivot.values, x=X, y=Y,
+            colorscale="Turbo", opacity=0.92,
+            contours=dict(z=dict(show=True, usecolormap=True,
+                                 highlightcolor=COLORS["amber"], project_z=True)),
+        )])
+        fig3d.update_layout(
+            title="Vendas por Gênero/Ano — Superfície 3D",
+            scene=dict(
+                xaxis=dict(title="Ano", tickvals=list(pivot.columns[::4]),
+                           gridcolor=COLORS["border"], backgroundcolor=COLORS["surface"]),
+                yaxis=dict(title="Gênero", tickvals=list(range(len(pivot.index))),
+                           ticktext=list(pivot.index),
+                           gridcolor=COLORS["border"], backgroundcolor=COLORS["surface"]),
+                zaxis=dict(title="Vendas (M)",
+                           gridcolor=COLORS["border"], backgroundcolor=COLORS["surface"]),
+                bgcolor=COLORS["surface"],
+            ),
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=COLORS["text"], family="Inter, sans-serif"),
+            margin=dict(l=0, r=0, t=50, b=0),
+            height=620,
+        )
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
+        st.plotly_chart(fig3d, use_container_width=True, key="3d_surface")
+        st.markdown("</div>", unsafe_allow_html=True)
 
     render_data_expander(dff)
 
@@ -760,7 +771,7 @@ def page_sobre(df: pd.DataFrame):
         st.subheader("Mínimos e Máximos")
         stats = [
             ("Ano",               int(df["Year"].min()),         int(df["Year"].max())),
-            ("Vendas América N.", df["América do Norte"].min(),  df["América do Norte"].max()),
+            ("Vendas América do Norte", df["América do Norte"].min(),  df["América do Norte"].max()),
             ("Vendas Europa",     df["Europa"].min(),            df["Europa"].max()),
             ("Vendas Japão",      df["Japão"].min(),             df["Japão"].max()),
             ("Vendas Outros",     df["Outros Países"].min(),     df["Outros Países"].max()),
@@ -809,7 +820,7 @@ def main():
         )
 
     if   option.startswith("📊"): page_resumo(dff, df, year_start, year_end)
-    elif option.startswith("📈"): page_tendencias(dff)
+    elif option.startswith("📈"): page_tendencias(dff, genre)
     elif option.startswith("🗺️"): page_producao(dff)
     elif option.startswith("ℹ️"): page_sobre(df)
 
