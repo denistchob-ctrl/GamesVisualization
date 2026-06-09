@@ -597,7 +597,7 @@ def page_resumo(dff: pd.DataFrame, df_total: pd.DataFrame, year_start: int, year
         pub_df, x="Vendas Globais", y="Publisher", orientation="h",
         labels={"Publisher": "", "Vendas Globais": "Vendas Globais (M)"},
         title="Top 20 Desenvolvedoras por Vendas Globais",
-        color="Vendas Globais", color_continuous_scale="Greens",
+        color="Vendas Globais", color_continuous_scale="Cividis",
     )
     fig.update_traces(hovertemplate="<b>%{y}</b><br>%{x:.1f} M<extra></extra>")
     fig.update_layout(showlegend=False, coloraxis_showscale=False)
