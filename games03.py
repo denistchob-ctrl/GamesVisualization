@@ -48,7 +48,8 @@ CHART_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",   # fundo transparente (herda CSS)
     plot_bgcolor="rgba(22,27,39,1)", # fundo do plot ligeiramente elevado
     font=dict(family="Inter, sans-serif", color=COLORS["text"], size=12),
-    title_font=dict(size=15, color=COLORS["text"], family="Inter, sans-serif"),
+    # title_font=dict(size=15, color=COLORS["text"], family="Inter, sans-serif"),
+    title_font=dict(size=15, color="#1E3A5F", family="Inter, sans-serif"),  # azul escuro forte
     margin=dict(l=16, r=16, t=48, b=16),
     hoverlabel=dict(
         bgcolor=COLORS["surface"],
@@ -98,8 +99,10 @@ html, body, [class*="css"] {{
     letter-spacing: -0.5px;
 }}
 .dash-header p {{
-    color: {COLORS["muted"]};
-    font-size: 0.95rem;
+    # color: {COLORS["muted"]};
+    # font-size: 0.95rem;
+    color: #FFFFFF;
+    font-weight: 600;
     margin: 0;
 }}
 
@@ -628,9 +631,13 @@ def page_producao(dff: pd.DataFrame):
         title="Número de Jogos Lançados — Top Anos × Gêneros",
         aspect="auto",
     )
+    # fig.update_traces(
+    #     hovertemplate="<b>%{y}</b> · %{x}<br>%{z} jogos<extra></extra>",
+    #     textfont=dict(size=14, color="white"),
+    # )
     fig.update_traces(
-        hovertemplate="<b>%{y}</b> · %{x}<br>%{z} jogos<extra></extra>",
-        textfont=dict(size=14, color="white"),
+        hovertemplate="...",
+        textfont=dict(size=14),  # Plotly escolhe preto ou branco automaticamente pelo contraste
     )
     fig.update_xaxes(side="top")
     chart_container(fig, "heatmap_producao", height=480)
