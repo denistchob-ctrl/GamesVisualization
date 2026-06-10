@@ -51,7 +51,7 @@ CHART_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(22,27,39,1)",
     font=dict(family="Inter, sans-serif", color=COLORS["text"], size=12),
-    title_font=dict(size=16, color=COLORS["title"], family="Inter, sans-serif"),
+    title_font=dict(size=18, color=COLORS["title"], family="Inter, sans-serif"),
     margin=dict(l=16, r=16, t=48, b=16),
     hoverlabel=dict(
         bgcolor=COLORS["surface"],
@@ -159,9 +159,7 @@ html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; }}
 [data-testid="stPlotlyChart"] {{ border-radius: 8px; overflow: hidden; }}
 </style>
 """
-
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
-
 
 # =============================================================================
 # CARREGAMENTO DE DADOS
@@ -380,7 +378,6 @@ def apply_theme(fig: go.Figure, height: int = 420) -> go.Figure:
     fig.update_layout(**CHART_LAYOUT, height=height)
     return fig
 
-
 def chart_container(fig: go.Figure, key: str, height: int = 420):
     fig = apply_theme(fig, height=height)
     st.markdown('<div class="chart-card">', unsafe_allow_html=True)
@@ -391,7 +388,6 @@ def chart_container(fig: go.Figure, key: str, height: int = 420):
 # =============================================================================
 # KPI CARDS  (Melhoria 5 — Δ% vs. total)
 # =============================================================================
-
 def _delta_html(value: float, total: float, label: str) -> str:
     """Gera o HTML do indicador de variação percentual."""
     if total == 0:
@@ -404,7 +400,6 @@ def _delta_html(value: float, total: float, label: str) -> str:
     cls   = "kpi-delta-pos" if pct > 0 else "kpi-delta-neg"
     # return f'<span class="{cls}">{sign} {abs(pct):.1f}% vs. total</span>' # com setas
     return f'<span class="{cls}">{abs(pct):.1f}% vs. total</span>'
-
 
 def render_kpis(dff: pd.DataFrame, df_total: pd.DataFrame):
     """
@@ -469,11 +464,9 @@ def render_kpis(dff: pd.DataFrame, df_total: pd.DataFrame):
             unsafe_allow_html=True,
         )
 
-
 # =============================================================================
 # EXPANDER: DADOS FILTRADOS + DOWNLOAD CSV  (Melhoria 4)
 # =============================================================================
-
 def render_data_expander(dff: pd.DataFrame):
     """Exibe os dados filtrados em um expander colapsado com botão de download."""
     with st.expander(f"📋 Ver dados filtrados ({len(dff):,} registros)", expanded=False):
@@ -487,11 +480,9 @@ def render_data_expander(dff: pd.DataFrame):
             use_container_width=True,
         )
 
-
 # =============================================================================
 # PÁGINAS
 # =============================================================================
-
 def page_resumo(dff: pd.DataFrame, df_total: pd.DataFrame, year_start: int, year_end: int):
     """Página 1 – Resumo Integrado."""
     st.markdown(
