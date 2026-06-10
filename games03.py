@@ -24,7 +24,7 @@ import numpy as np
 # =============================================================================
 
 st.set_page_config(
-    page_title="VG Sales · Dashboard",
+    page_title="Análise de Dados de Vendas de Jogos",
     page_icon="🎮",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -225,7 +225,7 @@ def build_sidebar_filters(df: pd.DataFrame) -> tuple:
     Renderiza a barra lateral completa.
     Retorna: (option, genre, year_start, year_end, platform, publisher, simplify)
     """
-    st.sidebar.markdown("## 🎮 VG Sales")
+    st.sidebar.markdown("## 🎮 Análise de Dados de Vendas de Jogos")
     st.sidebar.markdown("---")
 
     option = st.sidebar.radio(
@@ -745,7 +745,7 @@ def page_sobre(df: pd.DataFrame):
     st.info(
         "**Fonte:** [VGChartz via Kaggle](https://www.kaggle.com/datasets/gregorut/videogamesales) · "
         "[Script de extração](https://github.com/GregorUT/vgchartzScrape) (BeautifulSoup/Python)  \n"
-        "Base extraída ~meados de 2016. Anos 2017+ têm poucos registros e podem estar incompletos.  \n"
+        "Base extraída em meados de 2016. Anos 2017+ têm poucos registros e podem estar incompletos.  \n"
         "**Todos os valores de venda estão em milhões de unidades.**",
         icon="ℹ️",
     )
@@ -772,7 +772,7 @@ def page_sobre(df: pd.DataFrame):
     with col1:
         st.subheader("Mínimos e Máximos")
         stats = [
-            ("Ano",               int(df["Year"].min()),         int(df["Year"].max())),
+            ("Ano de Desenvolvimento", int(df["Year"].min()), int(df["Year"].max())),
             ("Vendas América do Norte", df["América do Norte"].min(),  df["América do Norte"].max()),
             ("Vendas Europa",     df["Europa"].min(),            df["Europa"].max()),
             ("Vendas Japão",      df["Japão"].min(),             df["Japão"].max()),
