@@ -397,11 +397,13 @@ def _delta_html(value: float, total: float, label: str) -> str:
     if total == 0:
         return f'<span class="kpi-delta-neu">—</span>'
     pct = (value / total) * 100
+    # pct = (value / total - 1) * 100 # alternativa: % de aumento/diminuição em relação ao total
     if abs(pct) < 0.1:
         return f'<span class="kpi-delta-neu">= {label} total</span>'
-    sign  = "▲" if pct > 0 else "▼"
+    # sign  = "▲" if pct > 0 else "▼" # alternativa: setas para indicar direção da variação
     cls   = "kpi-delta-pos" if pct > 0 else "kpi-delta-neg"
-    return f'<span class="{cls}">{sign} {abs(pct):.1f}% vs. total</span>'
+    # return f'<span class="{cls}">{sign} {abs(pct):.1f}% vs. total</span>' # com setas
+    return f'<span class="{cls}">{abs(pct):.1f}% vs. total</span>'
 
 
 def render_kpis(dff: pd.DataFrame, df_total: pd.DataFrame):
