@@ -51,7 +51,7 @@ CHART_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(22,27,39,1)",
     font=dict(family="Inter, sans-serif", color=COLORS["text"], size=12),
-    title_font=dict(size=15, color=COLORS["title"], family="Inter, sans-serif"),
+    title_font=dict(size=16, color=COLORS["title"], family="Inter, sans-serif"),
     margin=dict(l=16, r=16, t=48, b=16),
     hoverlabel=dict(
         bgcolor=COLORS["surface"],
