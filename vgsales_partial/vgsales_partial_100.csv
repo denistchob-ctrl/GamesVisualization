@@ -1,0 +1,101 @@
+Rank,Name,Platform,Year,Genre,Publisher,Developer,Critic_Score,User_Score,NA_Sales,PAL_Sales,JP_Sales,Other_Sales,Global_Sales,Release_Date,Last_Update
+1,Tetris,Series,88,Puzzle,The Tetris Company  ,Alexey Pajitnov  ,,,520.00,N/,N/,N/,N/,01st Jan 88  ,27th Feb 20
+2,Pokemon,Series,98,Role-Playing,Nintendo  ,Game Freak  ,,,505.15,N/,N/,N/,N/,28th Sep 98  ,03rd Feb 20
+3,Call of Duty,Series,03,Shooter,Activision  ,Infinity Ward  ,,,500.00,N/,N/,N/,N/,29th Oct 03  ,03rd Feb 20
+4,Grand Theft Auto,Series,98,Action-Adventure,Rockstar Games  ,Rockstar North  ,,,465.00,N/,N/,N/,N/,27th Mar 98  ,03rd Feb 20
+5,Super Mario,Series,83,Platform,Nintendo  ,Nintendo  ,,,432.79,N/,N/,N/,N/,20th Jul 83  ,20th Feb 20
+6,Minecraft,Series,11,Sandbox,Mojang  ,Mojang  ,,,350.00,N/,N/,N/,N/,18th Nov 11  ,08th Feb 20
+7,Minecraft,All,11,Action-Adventure,Mojang  ,Mojang AB  ,,8.4  ,350.00,N/,N/,N/,N/,18th Nov 11  ,08th Oct 20
+8,FIFA,Series,93,Sports,EA Sports  ,Extended Play Productions (1991-1997)  ,,,325.00,N/,N/,N/,N/,15th Dec 93  ,03rd Feb 20
+9,Assassin's Creed,Series,07,Action-Adventure,Ubisoft  ,Ubisoft  ,,,230.00,N/,N/,N/,N/,13th Nov 07  ,11th Feb 20
+10,Grand Theft Auto V,All,13,Action-Adventure,Rockstar Games  ,Rockstar North  ,,9.7  ,225.00,N/,N/,N/,N/,17th Sep 13  ,08th Oct 20
+11,Final Fantasy,Series,87,Role-Playing,Square  ,Square  ,,,207.00,N/,N/,N/,N/,18th Dec 87  ,28th Feb 20
+12,Mario Kart,Series,92,Racing,Nintendo  ,Nintendo  ,,,206.20,N/,N/,N/,N/,01st Sep 92  ,20th Feb 20
+13,Lego,Series,97,Action-Adventure,Warner Bros. Interactive Entertainment  ,TT Fusion  ,,,203.22,N/,N/,N/,N/,26th Sep 97  ,01st Mar 20
+14,The Sims,Series,00,Simulation,Electronic Arts  ,Maxis  ,,,200.00,N/,N/,N/,N/,04th Feb 00  ,18th Feb 20
+15,Resident Evil,Series,96,Action-Adventure,Capcom  ,Capcom  ,,,189.00,N/,N/,N/,N/,30th Mar 96  ,03rd Feb 20
+16,NBA 2K,Series,99,Sports,2K Games  ,Visual Concepts  ,,,170.00,N/,N/,N/,N/,10th Nov 99  ,16th Feb 20
+17,The Legend of Zelda,Series,87,Action-Adventure,Nintendo  ,Nintendo  ,,,160.31,N/,N/,N/,N/,14th Jul 87  ,03rd Feb 20
+18,Tomb Raider,Series,96,Action-Adventure,Eidos Interactive  ,Core Design  ,,,153.00,N/,N/,N/,N/,14th Nov 96  ,27th Feb 20
+19,Need for Speed,Series,94,Racing,Electronic Arts  ,EA Black Box  ,,,150.00,N/,N/,N/,N/,31st Aug 94  ,24th Feb 20
+20,Wii/Nintendo Sports,Series,06,Sports,Nintendo  ,Nintendo  ,,,133.88,N/,N/,N/,N/,19th Nov 06  ,07th Feb 23
+21,Madden NFL,Series,88,Sports,Electronic Arts  ,Park Place Productions  ,,,130.00,N/,N/,N/,N/,01st Jun 88  ,25th Feb 20
+22,Monster Hunter,Series,04,Role-Playing,Capcom  ,Capcom  ,,,125.00,N/,N/,N/,N/,21st Sep 04  ,03rd Feb 20
+23,Pro Evolution Soccer/eFootball,Series,95,Sports,Konami  ,Konami  ,,,112.50,N/,N/,N/,N/,22nd Dec 95  ,07th Feb 22
+24,Sonic the Hedgehog,Series,91,Platform,Sega  ,Sonic Team  ,,,111.51,N/,N/,N/,N/,23rd Jun 91  ,07th Feb 20
+25,Red Dead,Series,04,Action-Adventure,Rockstar Games  ,Rockstar San Diego  ,,,110.00,N/,N/,N/,N/,04th May 04  ,26th Feb 20
+26,Borderlands,Series,09,Shooter,2K Games  ,Gearbox Software  ,,,100.00,N/,N/,N/,N/,20th Oct 09  ,05th Feb 20
+27,Gran Turismo,Series,98,Racing,Sony Interactive Entertainment  ,Polyphony Digital  ,,,100.00,N/,N/,N/,N/,12th May 98  ,05th Feb 20
+28,Battlefield,Series,02,Shooter,Electronic Arts  ,EA DICE  ,,,95.70,N/,N/,N/,N/,10th Sep 02  ,23rd Feb 20
+29,Dragon Quest,Series,86,Role-Playing,Square  ,ArtePiazza  ,,,95.00,N/,N/,N/,N/,27th May 86  ,27th Feb 20
+30,The Elder Scrolls,Series,94,Role-Playing,Bethesda Softworks  ,Bethesda Softworks  ,,,92.20,N/,N/,N/,N/,25th Mar 94  ,04th Mar 20
+31,Mortal Kombat,Series,92,Fighting,Warner Bros. Interactive Entertainment  ,Avalanche Software  ,,,88.00,N/,N/,N/,N/,08th Oct 92  ,01st Mar 20
+32,Mario Party,Series,99,Party,Nintendo  ,Hudson Soft  ,,,86.61,N/,N/,N/,N/,01st Feb 99  ,18th Feb 20
+33,The Witcher,Series,07,Role-Playing,CD Projekt  ,CD Projekt Red Studio  ,,,85.00,N/,N/,N/,N/,30th Oct 07  ,13th Feb 20
+34,Animal Crossing,Series,02,Simulation,Nintendo  ,Nintendo  ,,,84.23,N/,N/,N/,N/,16th Sep 02  ,20th Feb 20
+35,Wii Sports,Wii,06,Sports,Nintendo  ,Nintendo EAD  ,,7.7  ,82.90,N/,N/,N/,N/,19th Nov 06  ,
+36,Harry Potter/Wizarding World,Series,01,Action-Adventure,Electronic Arts  ,Griptonite Games  ,,,82.70,N/,N/,N/,N/,15th Nov 01  ,23rd Feb 23
+37,Red Dead Redemption 2,All,18,Action-Adventure,Rockstar Games  ,Rockstar Studios  ,,9.8  ,82.00,N/,N/,N/,N/,26th Oct 18  ,08th Oct 20
+38,Halo,Series,01,Shooter,Microsoft Game Studios  ,Bungie  ,,,81.00,N/,N/,N/,N/,15th Nov 01  ,03rd Feb 20
+39,Dragon Ball,Series,86,Role-Playing,Bandai  ,Tose  ,,,80.49,N/,N/,N/,N/,27th Sep 86  ,05th Mar 20
+40,Civilization,Series,91,Strategy,Microprose  ,Firaxis Games  ,,,80.00,N/,N/,N/,N/,01st Sep 91  ,05th Feb 20
+41,Just Dance,Series,09,Music,Ubisoft  ,Ubisoft  ,,,80.00,N/,N/,N/,N/,17th Nov 09  ,11th Feb 20
+42,Super Smash Bros.,Series,99,Fighting,Nintendo  ,Nintendo  ,,,78.74,N/,N/,N/,N/,26th Apr 99  ,20th Feb 20
+43,God of War,Series,05,Action,Sony Interactive Entertainment  ,SIE Santa Monica Studio  ,,,76.55,N/,N/,N/,N/,22nd Mar 05  ,04th Mar 20
+44,Ark,Series,17,Action-Adventure,Studio Wildcard  ,Studio Wildcard  ,,,76.26,N/,N/,N/,N/,27th Aug 17  ,19th Mar 20
+45,Ark: Survival Evolved,All,17,Action-Adventure,Studio Wildcard  ,Studio Wildcard  ,,,76.00,N/,N/,N/,N/,29th Aug 17  ,31st Dec 20
+46,Crash Bandicoot,Series,96,Platform,Sony Interactive Entertainment  ,Naughty Dog  ,,,75.00,N/,N/,N/,N/,09th Sep 96  ,02nd Mar 20
+47,PlayerUnknown's Battlegrounds,All,17,Shooter,PUBG Corporation  ,PUBG Corporation  ,,,75.00,N/,N/,N/,N/,17th Dec 17  ,24th Oct 20
+48,PUBG,Series,17,Shooter,PUBG Corporation  ,PUBG Corporation  ,,,75.00,N/,N/,N/,N/,20th Dec 17  ,16th Mar 20
+49,Worms,Series,95,Strategy,Team17  ,Team17  ,,,75.00,N/,N/,N/,N/,31st Oct 95  ,26th Jan 21
+50,Donkey Kong,Series,81,Platform,Nintendo  ,Nintendo  ,,,71.02,N/,N/,N/,N/,31st Jul 81  ,21st Feb 20
+51,Mario Kart 8 Deluxe,NS,17,Racing,Nintendo  ,Nintendo EPD  ,,9.3  ,70.59,N/,N/,N/,N/,28th Apr 17  ,19th Nov 18
+52,WWE 2K,Series,00,Fighting,2K Games  ,Visual Concepts  ,,,70.00,N/,N/,N/,N/,02nd Mar 00  ,02nd Mar 20
+53,Metal Gear,Series,87,Action-Adventure,Konami  ,Konami  ,,,65.50,N/,N/,N/,N/,13th Jul 87  ,26th Feb 20
+54,Counter-Strike,Series,00,Shooter,Valve  ,Valve  ,,,65.00,N/,N/,N/,N/,09th Nov 00  ,19th Feb 20
+55,The Oregon Trail,Series,71,Education,MECC  ,MECC  ,,,65.00,N/,N/,N/,N/,03rd Dec 71  ,18th Feb 20
+56,ARMA,Series,07,Shooter,505 Games  ,Bohemia Interactive  ,,,64.28,N/,N/,N/,N/,04th May 07  ,17th Feb 20
+57,Terraria,Series,11,Action-Adventure,505 Games  ,Re-Logic  ,,,64.00,N/,N/,N/,N/,16th May 11  ,07th Mar 20
+58,Terraria,All,11,Platform,Re-Logic  ,Re-Logic  ,,,64.00,N/,N/,N/,N/,16th May 11  ,10th Oct 20
+59,Far Cry,Series,04,Shooter,Ubisoft  ,Ubisoft  ,,,62.50,N/,N/,N/,N/,23rd Mar 04  ,11th Feb 20
+60,Tekken,Series,94,Fighting,Namco  ,Bandai Namco Studios  ,,,61.00,N/,N/,N/,N/,11th Dec 94  ,21st Feb 20
+61,Star Wars: Battlefront,Series,04,Shooter,LucasArts  ,Pandemic Studios  ,,,60.00,N/,N/,N/,N/,21st Sep 04  ,24th Feb 20
+62,The Elder Scrolls V: Skyrim,All,11,Role-Playing,Bethesda Softworks  ,Bethesda Game Studios  ,,9.4  ,60.00,N/,N/,N/,N/,10th Nov 11  ,27th Oct 20
+63,The Witcher 3: Wild Hunt,All,15,Role-Playing,Warner Bros. Interactive Entertainment  ,CD Projekt Red Studio  ,,8.9  ,60.00,N/,N/,N/,N/,18th May 15  ,29th Oct 20
+64,Spider-Man,Series,82,Action-Adventure,Parker Brothers  ,Parker Brothers  ,,,59.00,N/,N/,N/,N/,01st Jan 82  ,12th Mar 20
+65,Street Fighter,Series,87,Fighting,Capcom  ,Capcom  ,,,58.30,N/,N/,N/,N/,30th Aug 87  ,03rd Feb 20
+66,Warriors,Series,97,Action,KOEI  ,Omega Force  ,,,56.67,N/,N/,N/,N/,30th Jun 97  ,24th Mar 20
+67,Diablo,Series,97,Role-Playing,Blizzard Entertainment  ,Blizzard North  ,,,55.00,N/,N/,N/,N/,03rd Jan 97  ,18th Feb 20
+68,Human: Fall Flat,All,16,Platform,Curve Digital  ,No Brakes Games  ,,,55.00,N/,N/,N/,N/,22nd Jul 16  ,11th Feb 21
+69,Lego Star Wars,Series,05,Action-Adventure,Warner Bros. Interactive Entertainment  ,TT Fusion  ,,,53.20,N/,N/,N/,N/,29th Mar 05  ,02nd Mar 20
+70,Fallout,Series,97,Role-Playing,Bethesda Softworks  ,Interplay Entertainment  ,,,51.43,N/,N/,N/,N/,10th Oct 97  ,07th Mar 20
+71,Marvel's Spider-Man,Series,18,Action-Adventure,Sony Interactive Entertainment  ,Insomniac Games  ,,,51.00,N/,N/,N/,N/,07th Sep 18  ,08th Jan 23
+72,Kirby,Series,92,Platform,Nintendo  ,HAL Laboratory  ,,,50.82,N/,N/,N/,N/,01st Aug 92  ,22nd Feb 20
+73,The Walking Dead: Telltale Games Series,Series,12,Adventure,Telltale Games  ,Telltale Games  ,,,50.00,N/,N/,N/,N/,24th Apr 12  ,12th Jan 21
+74,Bejeweled,Series,01,Puzzle,PopCap Games  ,PopCap Games  ,,,50.00,N/,N/,N/,N/,30th May 01  ,25th Feb 20
+75,Destiny,Series,14,Shooter,Activision  ,Bungie  ,,,50.00,N/,N/,N/,N/,09th Sep 14  ,06th Aug 23
+76,Stardew Valley,Series,16,Simulation,Chucklefish  ,ConcernedApe  ,,,50.00,N/,N/,N/,N/,26th Feb 16  ,12th Feb 20
+77,Stardew Valley,All,16,Simulation,ConcernedApe  ,ConcernedApe  ,,,50.00,N/,N/,N/,N/,26th Feb 16  ,28th Dec 20
+78,Total War,Series,00,Strategy,Sega  ,Creative Assembly  ,,,49.54,N/,N/,N/,N/,13th Jun 00  ,07th Feb 20
+79,Animal Crossing: New Horizons,NS,20,Simulation,Nintendo  ,Nintendo  ,8.0  ,,49.32,N/,N/,N/,N/,20th Mar 20  ,11th Apr 20
+80,ArmA II,PC,09,Shooter,Got Game Entertainment  ,Bohemia Interactive  ,,,47.26,N/,N/,N/,N/,07th Jul 09  ,
+81,Uncharted,Series,07,Shooter,Sony Interactive Entertainment  ,Naughty Dog  ,,,44.33,N/,N/,N/,N/,20th Nov 07  ,15th Feb 20
+82,Mega Man,Series,87,Platform,Capcom  ,Capcom  ,,,44.00,N/,N/,N/,N/,17th Dec 87  ,03rd Feb 20
+83,Wii Fit,Series,08,Misc,Nintendo  ,Nintendo  ,,,43.80,N/,N/,N/,N/,21st May 08  ,19th Feb 20
+84,BioShock,Series,07,Shooter,2K Games  ,Irrational Games  ,,,43.00,N/,N/,N/,N/,21st Aug 07  ,08th Feb 20
+85,Call of Duty: Black Ops 3,All,15,Shooter,Activision  ,Treyarch  ,,,43.00,N/,N/,N/,N/,06th Nov 15  ,18th Dec 25
+86,Souls,Series,09,Role-Playing,Bandai Namco Entertainment  ,From Software  ,,,42.79,N/,N/,N/,N/,06th Oct 09  ,17th Feb 20
+87,Farming Simulator,Series,08,Simulation,Astragon  ,Giants Software  ,,,42.00,N/,N/,N/,N/,14th Apr 08  ,03rd Mar 20
+88,Call of Duty: Modern Warfare,All,19,Shooter,Activision  ,Infinity Ward  ,,7.8  ,41.00,N/,N/,N/,N/,25th Oct 19  ,29th Nov 20
+89,Gears of War,Series,06,Shooter,Microsoft Game Studios  ,Epic Games  ,,,41.00,N/,N/,N/,N/,07th Nov 06  ,11th Mar 20
+90,Payday,Series,11,Shooter,Daybreak Games  ,Overkill Software  ,,,40.70,N/,N/,N/,N/,18th Oct 11  ,16th Feb 20
+91,World of WarCraft,Series,04,MMO,Blizzard Entertainment  ,Blizzard Entertainment  ,,,40.60,N/,N/,N/,N/,23rd Nov 04  ,20th Mar 20
+92,Super Mario Bros.,NES,85,Platform,Nintendo  ,Nintendo EAD  ,,10.0  ,40.24,N/,N/,N/,N/,18th Oct 85  ,
+93,Counter-Strike: Global Offensive,PC,12,Shooter,Valve  ,Valve Corporation  ,,,40.00,N/,N/,N/,N/,21st Aug 12  ,26th Mar 19
+94,Guitar Hero,Series,05,Music,Activision  ,Harmonix  ,,,40.00,N/,N/,N/,N/,08th Nov 05  ,05th Mar 20
+95,Hitman,Series,00,Action-Adventure,Eidos Interactive  ,IO Interactive  ,,,40.00,N/,N/,N/,N/,21st Nov 00  ,28th Feb 20
+96,Hogwarts Legacy,All,23,Role-Playing,Warner Bros. Interactive Entertainment  ,Avalanche Software  ,,7.6  ,40.00,N/,N/,N/,N/,10th Feb 23  ,23rd Feb 23
+97,Horizon,Series,17,Action-Adventure,Sony Interactive Entertainment  ,Guerrilla Games  ,,,40.00,N/,N/,N/,N/,28th Feb 17  ,24th Sep 20
+98,Payday 2,All,13,Shooter,505 Games  ,Overkill Software  ,,,40.00,N/,N/,N/,N/,13th Aug 13  ,17th Dec 25
+99,Tom Clancy's Ghost Recon,Series,01,Shooter,Ubisoft  ,Red Storm Entertainment  ,,,40.00,N/,N/,N/,N/,13th Nov 01  ,12th Mar 20
+100,Dark Souls,Series,11,Role-Playing,Bandai Namco Entertainment  ,From Software  ,,,39.71,N/,N/,N/,N/,04th Oct 11  ,22nd Oct 22
