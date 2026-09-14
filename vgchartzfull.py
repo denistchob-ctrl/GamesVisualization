@@ -51,7 +51,7 @@ columns = {
 #urltail += '&showpalsales=0&showpalsales=1&showreleasedate=1&showuserscore=1&showjapansales=1'
 #urltail += '&showlastupdate=0&showothersales=1&showgenre=1&sort=GL'
 
-#Pesquisa realiaza em 18/04/2026
+#Pesquisa realizada em 18/04/2026
 #https://www.vgchartz.com/games/games.php?page=
 # &order=Sales&ownership=Both&direction=DESC
 # &showtotalsales=1&shownasales=1&showpalsales=1
